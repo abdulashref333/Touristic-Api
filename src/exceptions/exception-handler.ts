@@ -8,6 +8,7 @@ import {
 import { Response } from 'express';
 import { IncomingMessage } from 'http';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { json } from 'stream/consumers';
 
 export const getStatusCode = (exception: unknown): number => {
   return exception instanceof HttpException
@@ -16,8 +17,11 @@ export const getStatusCode = (exception: unknown): number => {
 };
 
 export const getErrorMessage = (exception: unknown): string => {
-  // console.log(exception);
-  return String(exception);
+  // console.log(exception instanceof HttpException);
+  return exception instanceof HttpException
+    ? JSON.stringify(exception.getResponse())
+    : String(exception);
+  // return String(exception);
 };
 
 @Catch()
@@ -28,14 +32,20 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<IncomingMessage>();
     const code = getStatusCode(exception);
-    const message = getErrorMessage(exception);
+    const messages =
+      exception instanceof HttpException
+        ? JSON.parse(getErrorMessage(exception))
+        : getErrorMessage(exception);
 
-    if (code === 500) this.logger.error(`${message}`);
+    // console.log(`type : ${typeof messages}, ${messages}`);
+    // console.log(typeof exception);
+
+    if (code === 500) this.logger.error(`${messages}`);
     response.status(code).json({
-      code,
+      msg: messages.message ? messages.message : messages,
       path: request.url,
-      message,
-      success: false,
+      status: code,
+      success: 'faile',
       timestamp: new Date().toISOString(),
     });
   }
