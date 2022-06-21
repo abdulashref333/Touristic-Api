@@ -12,6 +12,9 @@
     "NODE_ENV": {
       "description": "Environment [production/development]",
       "value": "production"
+    },
+    "MONGODB_URI": {
+      "value": "mongodb+srv://abdul_aswany22:abdul_aswany22@aswany.9tbzups.mongodb.net/?retryWrites=true&w=majority"
     }
   },
   "formation": {
