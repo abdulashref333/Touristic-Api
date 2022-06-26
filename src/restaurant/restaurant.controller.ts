@@ -36,7 +36,7 @@ async count(): Promise<number> {
 }
 @Get('')
 async findAll(): Promise<any> {
-  return await this.restaurantService.getAllObjects();
+  return await this.restaurantService.getAllRestaurants;
 }
 
 
