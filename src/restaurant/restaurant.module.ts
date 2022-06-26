@@ -1,0 +1,22 @@
+import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { RestaurantEntity, RestaurantEntitySchema } from 'src/restaurant/entities/restaurant.entity';
+import { RestaurantController } from './restaurant.controller';
+import { RestaurantService } from './restaurant.service';
+
+@Module({
+  imports:[
+    MongooseModule.forFeature([{ name: 'Restaurant', schema: RestaurantEntitySchema }]),
+    NestjsQueryMongooseModule.forFeature([
+      {
+        document: RestaurantEntity,
+        name: 'Restaurant',
+        schema: RestaurantEntity,
+      },
+    ]),
+  ],
+  controllers: [RestaurantController],
+  providers: [RestaurantService]
+})
+export class RestaurantModule {}

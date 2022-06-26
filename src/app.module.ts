@@ -5,7 +5,7 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
-import { ResturantModule } from './resturant/resturant.module';
+import { RestaurantModule } from './restaurant/restaurant.module';
 @Module({
   imports: [
     UserModule,
@@ -18,7 +18,7 @@ import { ResturantModule } from './resturant/resturant.module';
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     CommonModule,
-    ResturantModule,
+    RestaurantModule,
   ],
   controllers: [AppController],
   providers: [AppService],
