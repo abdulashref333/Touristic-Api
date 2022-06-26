@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +22,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
+import { JWTAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -35,7 +39,9 @@ export class UserController {
   }
 
   @Get()
-  async findAll(@Query() query): Promise<any> {
+  @UseGuards(JWTAuthGuard)
+  async findAll(@Query() query, @Req() req: Request): Promise<any> {
+    console.log(req.headers);
     Object.keys(query).forEach((f) => (query[f] = JSON.parse(query[f])));
     // console.log({ query });
     const users = await this.userService.findAll(query);
