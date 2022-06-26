@@ -58,7 +58,7 @@ export class RestaurantService {
         return await this.restaurantModel.count();
     }
 
-    async getAllObjects() {
+    async getAllRestaurants() {
         
        const restaurants= await this.restaurantModel.find().exec()
        const count=await this.restaurantModel.count()
