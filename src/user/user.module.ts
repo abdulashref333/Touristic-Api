@@ -20,5 +20,6 @@ import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

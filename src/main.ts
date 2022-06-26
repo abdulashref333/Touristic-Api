@@ -5,11 +5,18 @@ import { GlobalExceptionFilter } from './exceptions/exception-handler';
 import { LoggingIncomingReqInterceptor } from './interceptors/logging.interceptor';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'log', 'warn'],
   });
+
+  // const cookieParserOptions: CookieParseOptions = {
+  //   maxAge: Number(60 * 60 * 24 * 7), // 1 week
+  // };
+  app.enableCors();
+  app.use(cookieParser());
   app.useGlobalFilters(new GlobalExceptionFilter(new Logger()));
   app.useGlobalInterceptors(
     new ResponseInterceptor(),
