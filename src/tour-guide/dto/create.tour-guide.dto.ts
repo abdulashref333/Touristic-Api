@@ -5,6 +5,7 @@ import {
   IsDefined,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -20,7 +21,7 @@ export class CreateTourGuideDto {
   @IsNotEmpty()
   @IsString()
   @IsDefined()
- description: string;
+  description: string;
 
  @ApiProperty()
  @IsDefined()
@@ -41,8 +42,7 @@ export class CreateTourGuideDto {
  price: number;
 
   @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
+ @IsOptional()
   @IsArray()
-  details: [{day:Date, places:[string],typeOfTransport:string,activities:[string]}];
+  details: [{day:string, places:[string],typeOfTransport:string,activities:[string]}];
 }
