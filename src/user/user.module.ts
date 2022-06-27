@@ -2,14 +2,9 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  IUserModel,
-  UserEntity,
-  UserEntitySchema,
-} from './entities/user.entity';
+import { UserEntity, UserEntitySchema } from './entities/user.entity';
 import { CommonModule } from 'src/common/common.module';
 import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
-import * as bcrypt from 'bcrypt';
 
 @Module({
   imports: [
@@ -25,5 +20,6 @@ import * as bcrypt from 'bcrypt';
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

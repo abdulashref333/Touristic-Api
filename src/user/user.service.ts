@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import IUser, { UserQuery } from './user.interface';
+import { UserQuery } from './user.interface';
 import { IUserModel, UserEntity } from './entities/user.entity';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
 

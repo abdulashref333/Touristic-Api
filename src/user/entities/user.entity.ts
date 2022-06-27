@@ -83,7 +83,7 @@ UserEntitySchema.pre('save', async function () {
 });
 
 UserEntitySchema.set('toJSON', {
-  transform: (doc, ret, opt) => {
+  transform: (doc, ret) => {
     delete ret.password;
     return ret;
   },
@@ -95,6 +95,6 @@ UserEntitySchema.set('toJSON', {
 //   return 'something.';
 // });
 
-// UserSchema.statics.findByEmail = async function (email: string) {
-//   return await this.findOne({ email }).exec();
-// };
+UserEntitySchema.statics.findByEmail = async function (email: string) {
+  return await this.findOne({ email }).exec();
+};
