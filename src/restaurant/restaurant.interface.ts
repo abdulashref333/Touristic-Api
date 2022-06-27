@@ -5,7 +5,7 @@ name: string;
 description: string;
 location: string;
 photos: string;
-reviewsRated: Number;
+reviewsRated: number;
 menu:string;
 openTime:string;
 closeTime:string;
