@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
-import { TourGuideModule } from './tour-guide/tour-guide.module';
+import { ProgramModule } from './programs/programs.module';
 import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({ isGlobal: true }),
     CommonModule,
     RestaurantModule,
-    TourGuideModule,
+    ProgramModule,
     AuthModule,
   ],
   controllers: [AppController],

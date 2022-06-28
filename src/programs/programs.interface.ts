@@ -1,6 +1,7 @@
-import { Document } from "mongodb";
+import { Document } from 'mongoose';
 
-export default interface ITourGuide extends Document {
+export default interface IProgram extends Document {
+   userId:string;
     title: string;
     description: string;
     rating: number;
@@ -9,7 +10,7 @@ export default interface ITourGuide extends Document {
     details:[object]
     }
     
-export interface TourGuideQuery {
+export interface ProgramQuery {
     rating: number;
     id: string;
   }

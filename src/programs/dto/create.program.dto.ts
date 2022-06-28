@@ -10,12 +10,18 @@ import {
 } from 'class-validator';
 
 
-export class CreateTourGuideDto {
+export class CreateProgramDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsDefined()
  title: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @IsDefined()
+ userId: string;
 
  @ApiProperty()
   @IsNotEmpty()

@@ -1,15 +1,18 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import ITourGuide from "../tour-guide.interface";
 import { Model, Document } from 'mongoose';
+import IProgram from "../programs.interface";
 
 
-export interface ITourGuideModel extends Model<ITourGuide> {
+export interface IProgramModel extends Model<IProgram> {
   
 }
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
-export class TourGuideEntity extends Document {
+export class ProgramEntity extends Document {
   @Prop({ required: true })
   title: string;
+
+  @Prop()
+  userId: string;
 
   @Prop()
   description: string;
@@ -27,4 +30,4 @@ export class TourGuideEntity extends Document {
   details: [object];
  
 }
-export const TourGuideEntitySchema = SchemaFactory.createForClass(TourGuideEntity);
+export const ProgramEntitySchema = SchemaFactory.createForClass(ProgramEntity);
