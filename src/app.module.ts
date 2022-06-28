@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
+import { HistoricalPlacesModule } from './historical_places/historical_places.module';
 @Module({
   imports: [
     UserModule,
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({ isGlobal: true }),
     CommonModule,
     AuthModule,
+    HistoricalPlacesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
