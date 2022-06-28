@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { HistoricalPlacesModule } from './historical_places/historical_places.module';
+import { BlogsModule } from './blogs/blogs.module';
 @Module({
   imports: [
     UserModule,
@@ -21,6 +22,7 @@ import { HistoricalPlacesModule } from './historical_places/historical_places.mo
     CommonModule,
     AuthModule,
     HistoricalPlacesModule,
+    BlogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
