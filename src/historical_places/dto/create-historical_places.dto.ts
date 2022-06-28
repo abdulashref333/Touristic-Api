@@ -25,14 +25,11 @@ export class CreateHistoricalPlaceDto {
   story:string;
 
   @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsNumber()
-  ratings:number;
+  avgRating:number
+
 
   @ApiProperty()
-  
-  reviews:[{user:string ,review:string}];
+  reviews:[{user:string ,review:string,rating:number}];
 
   @ApiProperty()
   @IsDefined()

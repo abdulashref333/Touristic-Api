@@ -3,8 +3,8 @@ import { Document } from 'mongoose';
 export default interface IHistoricalPlaces extends Document {
     name:string
     story:string
-    ratings:number
-    reviews:[{user:string ,review:string,}]
+    avgRating:number
+    reviews:[{user:string ,review:string,rating:number}]
     photos:[string]
     location:[string]
     availableDays: 

@@ -16,11 +16,11 @@ export class HistoricalPlacesEntity extends Document {
   @Prop()
   story:string;
 
-  @Prop()
-  ratings:number;
+@Prop()
+avgRating:number
 
   @Prop()
-  reviews:[{user:string ,review:string,}];
+  reviews:[{user:string ,review:string, rating:number}];
 
   @Prop()
   photos:[string];
