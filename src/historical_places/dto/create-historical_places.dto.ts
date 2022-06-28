@@ -27,6 +27,11 @@ export class CreateHistoricalPlaceDto {
   @ApiProperty()
   avgRating:number
 
+  @ApiProperty()
+  countRating:number
+  @ApiProperty()
+  sumRating:number
+
 
   @ApiProperty()
   reviews:[{user:string ,review:string,rating:number}];

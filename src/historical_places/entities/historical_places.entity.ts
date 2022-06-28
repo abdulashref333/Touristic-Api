@@ -19,6 +19,13 @@ export class HistoricalPlacesEntity extends Document {
 @Prop()
 avgRating:number
 
+
+@Prop()
+countRating:number
+
+@Prop()
+sumRating:number
+
   @Prop()
   reviews:[{user:string ,review:string, rating:number}];
 

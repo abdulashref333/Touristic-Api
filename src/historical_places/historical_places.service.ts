@@ -32,7 +32,7 @@ export class HistoricalPlacesService {
             const historicalPlace = {
                 name: String(createHistoricalPlaceDto.name).toLowerCase().trim() ,
                 story: createHistoricalPlaceDto.story,
-                rating:createHistoricalPlaceDto.ratings,
+                rating:createHistoricalPlaceDto.avgRating,
                 reviews:createHistoricalPlaceDto.reviews,
                 photos:createHistoricalPlaceDto.photos,
                 location:createHistoricalPlaceDto.location,
