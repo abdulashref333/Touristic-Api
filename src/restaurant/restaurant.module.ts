@@ -1,13 +1,19 @@
 import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RestaurantEntity, RestaurantEntitySchema } from 'src/restaurant/entities/restaurant.entity';
+import { CommonModule } from 'src/common/common.module';
+import {
+  RestaurantEntity,
+  RestaurantEntitySchema,
+} from 'src/restaurant/entities/restaurant.entity';
 import { RestaurantController } from './restaurant.controller';
 import { RestaurantService } from './restaurant.service';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{ name: 'Restaurant', schema: RestaurantEntitySchema }]),
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'Restaurant', schema: RestaurantEntitySchema },
+    ]),
     NestjsQueryMongooseModule.forFeature([
       {
         document: RestaurantEntity,
@@ -15,8 +21,9 @@ import { RestaurantService } from './restaurant.service';
         schema: RestaurantEntity,
       },
     ]),
+    CommonModule,
   ],
   controllers: [RestaurantController],
-  providers: [RestaurantService]
+  providers: [RestaurantService],
 })
 export class RestaurantModule {}
