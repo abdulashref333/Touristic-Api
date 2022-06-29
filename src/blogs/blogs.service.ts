@@ -7,79 +7,64 @@ import { UpdateBlogsDto } from './dto/update-blog.dto';
 
 @Injectable()
 export class BlogsService {
+  constructor(
+    @InjectModel('Blogs') private blogsModel: IBlogsModel,
+    @InjectQueryService(BlogsEntity)
+    readonly blogsService: QueryService<BlogsEntity>,
+  ) {}
 
-    constructor(
-        @InjectModel('Blogs') private blogsModel: IBlogsModel,
-        @InjectQueryService(BlogsEntity)
-        readonly blogsService: QueryService<BlogsEntity>,
-      ) {}
+  async create(CreateBlogsDto: CreateBlogsDto) {
+    const blogExist = await this.blogsModel.findOne({
+      userId: CreateBlogsDto.userId,
+      title: CreateBlogsDto.title,
+    });
+    const blog = {
+      userId: CreateBlogsDto.userId,
+      title: CreateBlogsDto.title,
+      subtitle: CreateBlogsDto.subtitle,
+      photo: CreateBlogsDto.photo,
+      body: CreateBlogsDto.body,
+      tags: CreateBlogsDto.tags,
+      date: CreateBlogsDto.date,
+      approved: false,
+    };
 
-      
-      async create(CreateBlogsDto: CreateBlogsDto) {
-        const blogExist = await this.blogsModel.findOne({
-            userId: CreateBlogsDto.userId,
-            title: CreateBlogsDto.title
-          });
-        
-        
-          if (blogExist)
-            throw new HttpException(
-              'This blog is exist, please provide another blog .',
-              HttpStatus.BAD_REQUEST,
-            );
-            const blog = {
-                userId: CreateBlogsDto.userId,
-                title: CreateBlogsDto.title,
-                subtitle:CreateBlogsDto.subtitle,
-                photo:CreateBlogsDto.photo,
-                body:CreateBlogsDto.body,
-                tags:CreateBlogsDto.tags,
-                date:CreateBlogsDto.date,
-                approved:CreateBlogsDto.approved
-        }
+    const newBlog = await this.blogsModel.create(blog);
+    return newBlog.save();
+  }
 
-      const newBlog = await this.blogsModel.create(blog);
-        return newBlog.save();
+  async count() {
+    const count = await this.blogsModel.count();
+    return await count;
+  }
 
-}
+  async getAllBlogs() {
+    return await this.blogsModel.find().exec();
+  }
 
-async count() {
-     
-  const count=await this.blogsModel.count()
-   return await count;
-}
+  async update(id: string, updateBlogsDto: UpdateBlogsDto) {
+    const blogExist = await this.blogsModel.findById(id).exec();
+    if (!blogExist)
+      throw new HttpException(
+        'This blog  is not exist, please provide valid blog .',
+        HttpStatus.BAD_REQUEST,
+      );
 
-async getAllBlogs() {
-        
-  return await this.blogsModel.find().exec();
-}
-
-
-async update(id: string, updateBlogsDto: UpdateBlogsDto) {
-  const blogExist = await this.blogsModel.findById(id).exec();
-  if (!blogExist)
-    throw new HttpException(
-      'This blog  is not exist, please provide valid blog .',
-      HttpStatus.BAD_REQUEST,
-    );
-
-  // this update function is gonna be a common update
-  Object.keys(updateBlogsDto).forEach((key) => {
+    // this update function is gonna be a common update
+    Object.keys(updateBlogsDto).forEach((key) => {
       blogExist[key] = updateBlogsDto[key];
-  });
+    });
 
-  const updatedBlog = this.blogsModel
-    .findByIdAndUpdate(id, blogExist, {
-      new: true,
-    })
-    .exec();
-  return updatedBlog;
-}
+    const updatedBlog = this.blogsModel
+      .findByIdAndUpdate(id, blogExist, {
+        new: true,
+      })
+      .exec();
+    return updatedBlog;
+  }
 
-async remove(id: string) {
-  const result = await this.blogsModel.findByIdAndRemove(id).exec();
-  return result;
-}
-
-
+  async remove(id: string) {
+    const result = await this.blogsModel.findByIdAndRemove(id).exec();
+    return result;
+  }
 }
