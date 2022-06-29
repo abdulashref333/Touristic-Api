@@ -50,6 +50,7 @@ export class UserController {
   }
 
   @Get('/count')
+  @ApiOperation({ summary: 'Get Users Count' })
   async count(): Promise<number> {
     return await this.userService.count();
   }
@@ -63,6 +64,8 @@ export class UserController {
   }
 
   @Patch(':id')
+  @ApiBody({ type: UpdateUserDto })
+  @ApiOperation({ summary: 'Update User' })
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -71,6 +74,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Update User' })
   async remove(@Param('id') id: string): Promise<IUser> {
     return this.userService.remove(id);
   }
