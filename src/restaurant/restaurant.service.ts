@@ -71,6 +71,7 @@ export class RestaurantService {
       restaurantExist,
       updateRestaurantDto,
     );
+
     const updatedRestaurant = this.restaurantModel
       .findByIdAndUpdate(id, restaurantExist, {
         new: true,
@@ -83,4 +84,5 @@ export class RestaurantService {
     const result = await this.restaurantModel.findByIdAndRemove(id).exec();
     return result;
   }
+
 }

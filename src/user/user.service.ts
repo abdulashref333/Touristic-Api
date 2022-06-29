@@ -82,4 +82,14 @@ export class UserService {
   async findUserByEmail(email: string) {
     return await this.userModel.findByEmail(email);
   }
+
+  async findUserById(id: string) {
+    return await this.userModel.findById(id).exec();
+  }
+
+  async isUserExist(id?: string, email?: string) {
+    if (id) return await this.findUserById(id);
+    if (email) return await this.findUserByEmail(email);
+    return false;
+  }
 }
