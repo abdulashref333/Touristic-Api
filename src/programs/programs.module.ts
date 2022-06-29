@@ -6,16 +6,19 @@ import { ProgramController } from './programs.controller';
 import { ProgramService } from './programs.service';
 
 @Module({
-  imports:[
-     MongooseModule.forFeature([{ name: 'Program', schema: ProgramEntitySchema }]),
-     NestjsQueryMongooseModule.forFeature([
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'Program', schema: ProgramEntitySchema },
+    ]),
+    NestjsQueryMongooseModule.forFeature([
       {
         document: ProgramEntity,
         name: 'Program',
         schema: ProgramEntity,
       },
-    ]), ],
+    ]),
+  ],
   controllers: [ProgramController],
-  providers: [ProgramService]
+  providers: [ProgramService],
 })
 export class ProgramModule {}

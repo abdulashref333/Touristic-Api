@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
 import { IProgramModel, ProgramEntity } from './entities/program.entity';
@@ -7,63 +7,53 @@ import { UpdateProgramDto } from './dto/update.program.dto';
 
 @Injectable()
 export class ProgramService {
-    constructor(
-        @InjectModel('Program') private programModel: IProgramModel,
-        @InjectQueryService(ProgramEntity)
-        readonly ProgramService: QueryService<ProgramEntity>,
-      ) {}
+  constructor(
+    @InjectModel('Program') private programModel: IProgramModel,
+    @InjectQueryService(ProgramEntity)
+    readonly ProgramService: QueryService<ProgramEntity>,
+  ) {}
 
+  async create(createProgramDto: CreateProgramDto) {
+    const programExist = await this.programModel.findOne({
+      title: createProgramDto.title,
+    });
 
-      async create(createProgramDto: CreateProgramDto) {
-        const programExist = await this.programModel.findOne({
-            title: createProgramDto.title,
-          });
-        
-        
-          if (programExist)
-            throw new HttpException(
-              'This program is exist, please provide another program.',
-              HttpStatus.BAD_REQUEST,
-            );
+    if (programExist)
+      throw new HttpException(
+        'This program is exist, please provide another program.',
+        HttpStatus.BAD_REQUEST,
+      );
 
+    const program = {
+      userId: createProgramDto.userId,
+      title: createProgramDto.title,
+      description: createProgramDto.description,
+      rating: createProgramDto.rating,
+      numOfDays: createProgramDto.numOfDays,
+      price: createProgramDto.price,
+      details: createProgramDto.details,
+    };
 
+    const newProgram = await this.programModel.create(program);
+    return newProgram.save();
+  }
 
-            const program = {
-                userId: createProgramDto.userId,
-                title: createProgramDto.title ,
-                description: createProgramDto.description,
-                rating:createProgramDto.rating,
-                numOfDays:createProgramDto.numOfDays,
-                price:createProgramDto.price,
-                details:createProgramDto.details
-        }
+  async count() {
+    const count = await this.programModel.count();
+    return await count;
+  }
 
-      const newProgram = await this.programModel.create(program);
-        return newProgram.save();
-}
-
-
-async count() {
-     
-    const count=await this.programModel.count()
-     return await count;
- }
- 
- async getAllPrograms() {
-        
+  async getAllPrograms() {
     return await this.programModel.find().exec();
-}
+  }
 
-
-
- async remove(id: string) {
+  async remove(id: string) {
     const result = await this.programModel.findByIdAndRemove(id).exec();
 
     return result;
   }
 
-
-async update(id: string, updateProgramDto: UpdateProgramDto) {
+  async update(id: string, updateProgramDto: UpdateProgramDto) {
     const ProgramExist = await this.programModel.findById(id).exec();
     if (!ProgramExist)
       throw new HttpException(
@@ -73,7 +63,7 @@ async update(id: string, updateProgramDto: UpdateProgramDto) {
 
     // this update function is gonna be a common update
     Object.keys(updateProgramDto).forEach((key) => {
-        ProgramExist[key] = updateProgramDto[key];
+      ProgramExist[key] = updateProgramDto[key];
     });
 
     const updatedProgram = this.programModel
@@ -82,8 +72,5 @@ async update(id: string, updateProgramDto: UpdateProgramDto) {
       })
       .exec();
     return updatedProgram;
-}
-
-
-
+  }
 }
