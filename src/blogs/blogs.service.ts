@@ -39,7 +39,7 @@ export class BlogsService {
   }
 
   async getAllBlogs() {
-    return await this.blogsModel.find().exec();
+    return await this.blogsModel.find({ approved: true }).exec();
   }
 
   async update(id: string, updateBlogsDto: UpdateBlogsDto) {
