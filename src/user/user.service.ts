@@ -25,7 +25,7 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       );
     const user = {
-      name: createUserDto.fisrt_name + ' ' + createUserDto.last_name,
+      name: createUserDto.first_name + ' ' + createUserDto.last_name,
       email: createUserDto.email,
       password: createUserDto.password,
       nationality: createUserDto.nationality,
