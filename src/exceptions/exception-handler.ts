@@ -8,7 +8,6 @@ import {
 import { Response } from 'express';
 import { IncomingMessage } from 'http';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { json } from 'stream/consumers';
 
 export const getStatusCode = (exception: unknown): number => {
   return exception instanceof HttpException

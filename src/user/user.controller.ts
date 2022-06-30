@@ -54,7 +54,7 @@ export class UserController {
   async count(): Promise<number> {
     return await this.userService.count();
   }
-  
+
   @Get('one')
   @ApiQuery({ name: 'email', type: 'string', required: false })
   @ApiQuery({ name: 'id', type: 'string', required: false })
