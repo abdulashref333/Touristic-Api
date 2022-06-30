@@ -50,7 +50,7 @@ export class RestaurantService {
   }
 
   async count() {
-    return await this.restaurantModel.count();
+    return this.restaurantModel.count();
   }
 
   async getAllRestaurants() {
@@ -84,5 +84,4 @@ export class RestaurantService {
     const result = await this.restaurantModel.findByIdAndRemove(id).exec();
     return result;
   }
-
 }

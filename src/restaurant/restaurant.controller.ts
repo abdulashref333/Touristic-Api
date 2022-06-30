@@ -25,16 +25,14 @@ export class RestaurantController {
   @ApiOperation({ summary: 'Create Restaurant' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @UsePipes(new ValidationPipe({ transform: true }))
-  async create(
-    @Body() createRestaurantDto: CreateRestaurantDto,
-  ): Promise<IRestaurant> {
-    console.log(createRestaurantDto);
-    return this.restaurantService.create(createRestaurantDto);
+  async create(@Body() createRestaurantDto: CreateRestaurantDto) {
+    const data = await this.restaurantService.create(createRestaurantDto);
+    return { data, msg: 'successfull created.' };
   }
 
   @Get('/count')
-  async count(): Promise<number> {
-    return await this.restaurantService.count();
+  async count() {
+    return { data: await this.restaurantService.count(), msg: 'msg' };
   }
 
   @Get('')

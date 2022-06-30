@@ -1,10 +1,8 @@
-import IRestaurant from "src/restaurant/restaurant.interface";
+import IRestaurant from 'src/restaurant/restaurant.interface';
 import { Model, Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
-export interface IRestaurantModel extends Model<IRestaurant> {
-  
-}
+export type IRestaurantModel = Model<IRestaurant>;
 
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class RestaurantEntity extends Document {
@@ -21,25 +19,25 @@ export class RestaurantEntity extends Document {
   photos: [string];
 
   @Prop()
-  rating: Number;
+  rating: number;
 
   @Prop()
-  menu:[string];
- 
-  @Prop()
-  availableDays:[string];
+  menu: [string];
 
   @Prop()
-  openTime:Number;
+  availableDays: [string];
 
   @Prop()
-  closeTime:Number;
+  openTime: number;
 
   @Prop()
-  restaurantPhoneNumber:string;
+  closeTime: number;
 
   @Prop()
-  supportDelivery:boolean;
+  restaurantPhoneNumber: string;
 
+  @Prop()
+  supportDelivery: boolean;
 }
-export const RestaurantEntitySchema = SchemaFactory.createForClass(RestaurantEntity);
+export const RestaurantEntitySchema =
+  SchemaFactory.createForClass(RestaurantEntity);

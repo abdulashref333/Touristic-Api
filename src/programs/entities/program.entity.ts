@@ -1,11 +1,8 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
-import IProgram from "../programs.interface";
+import IProgram from '../programs.interface';
 
-
-export interface IProgramModel extends Model<IProgram> {
-  
-}
+export type IProgramModel = Model<IProgram>;
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class ProgramEntity extends Document {
   @Prop({ required: true })
@@ -28,6 +25,5 @@ export class ProgramEntity extends Document {
 
   @Prop()
   details: [object];
- 
 }
 export const ProgramEntitySchema = SchemaFactory.createForClass(ProgramEntity);
