@@ -39,11 +39,16 @@ export class ProgramController {
   async count(): Promise<number> {
     return await this.programService.count();
   }
-  @Get('')
+
+  @Get()
   async findAll(): Promise<any> {
     const Programs = await this.programService.getAllPrograms();
     const count = await this.programService.count();
     return { Programs, count };
+  }
+  @Get(':id')
+  async getUser( @Param('id') id: string): Promise<any> {
+    return await this.programService.getUserInfo(id);
   }
 
   @Delete(':id')
