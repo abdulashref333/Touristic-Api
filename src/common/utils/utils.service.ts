@@ -8,4 +8,7 @@ export class UtilsService {
     });
     return oldDoc;
   }
+  parseQuery(query) {
+    Object.keys(query).forEach((f) => (query[f] = JSON.parse(query[f])));
+  }
 }

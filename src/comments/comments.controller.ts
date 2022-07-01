@@ -38,18 +38,10 @@ export class CommentsController {
         'This user is not exist, please provide another userId.',
         HttpStatus.BAD_REQUEST,
       );
-    // if (!(await this.blogsService.isBlogExist(createCommentDto.blogId)))
-    //   throw new HttpException(
-    //     'This blog is not exist, please provide another blogId.',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
+
     return this.commentsService.create(createCommentDto);
   }
 
-  // @Get(':id')
-  // async getUser(@Param('id') id: string): Promise<any> {
-  //   return await this.commentsService.getUserInfo(id);
-  // }
   @Get(':id')
   async getAllCommentsByBlogId(@Param('id') id: string): Promise<any> {
     return await this.commentsService.getBlogComments(id);

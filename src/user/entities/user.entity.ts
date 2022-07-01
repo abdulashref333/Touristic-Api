@@ -36,6 +36,9 @@ export class UserEntity extends Document {
   @Prop()
   gender: string;
 
+  @Prop()
+  avatar: string;
+
   @Prop({ default: Role.User, enum: Role })
   role: Role;
 }

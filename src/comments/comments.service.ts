@@ -35,13 +35,13 @@ export class CommentsService {
     return await this.commentsModel
       .find({ blogId: id })
       .select('body userId')
-      .populate('userId', 'name email gender -_id');
+      .populate('userId', 'name email avatar gender -_id');
   }
 
   async getAllComments() {
     return await this.commentsModel
       .find()
-      .populate('userId', 'name email gender -_id');
+      .populate('userId', 'name email gender avatar -_id');
   }
 
   async count() {
@@ -77,6 +77,14 @@ export class CommentsService {
 
   async findCommentById(id: string) {
     return await this.commentsModel.findById(id).exec();
+  }
+
+  async findCommentsByBlogId(blogId: string) {
+    return await this.commentsModel
+      .find({ blogId })
+      .limit(10)
+      .populate('userId')
+      .exec();
   }
 
   async isCommentExist(id?: string) {

@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -57,12 +58,12 @@ export class BlogsController {
 
   @Get(':id')
   async getUser(@Param('id') id: string): Promise<any> {
-    return await this.blogsService.getUserInfo(id);
+    return await this.blogsService.getBlogWithComments(id);
   }
 
   @Get()
-  async findAll(): Promise<any> {
-    const blogs = await this.blogsService.getAllBlogs();
+  async findAll(@Query() query): Promise<any> {
+    const blogs = await this.blogsService.getAllBlogs(query);
     const count = await this.blogsService.count();
     return { blogs, count };
   }

@@ -6,11 +6,16 @@ import { CommonModule } from 'src/common/common.module';
 import { UserModule } from 'src/user/user.module';
 import { CommentsController } from './comments.controller';
 import { CommentsService } from './comments.service';
-import { CommentsEntity, CommentsEntitySchema } from './entities/comment.entity';
+import {
+  CommentsEntity,
+  CommentsEntitySchema,
+} from './entities/comment.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Comments', schema: CommentsEntitySchema }]),
+    MongooseModule.forFeature([
+      { name: 'Comments', schema: CommentsEntitySchema },
+    ]),
     NestjsQueryMongooseModule.forFeature([
       {
         document: CommentsEntity,
@@ -20,10 +25,10 @@ import { CommentsEntity, CommentsEntitySchema } from './entities/comment.entity'
     ]),
     CommonModule,
     UserModule,
-    BlogsModule,
   ],
 
   controllers: [CommentsController],
-  providers: [CommentsService]
+  providers: [CommentsService],
+  exports: [CommentsService],
 })
 export class CommentsModule {}
