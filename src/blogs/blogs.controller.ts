@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -16,6 +17,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { JWTAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import RoleGuard from 'src/auth/guards/role.guard';
+import { Role } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import IBlogs from './blogs.interface';
 import { BlogsService } from './blogs.service';
@@ -32,6 +36,7 @@ export class BlogsController {
   ) {}
 
   @Post()
+  @UseGuards(JWTAuthGuard)
   @ApiBody({ type: CreateBlogsDto })
   @ApiOperation({ summary: 'Create Blog' })
   @ApiResponse({ status: 401, description: 'BadRequest.' })
@@ -45,6 +50,7 @@ export class BlogsController {
   }
 
   @Get('/count')
+  @UseGuards(RoleGuard(Role.Admin))
   async count(): Promise<number> {
     return await this.blogsService.count();
   }
@@ -62,6 +68,7 @@ export class BlogsController {
   }
 
   @Patch(':id')
+  @UseGuards(RoleGuard(Role.Admin))
   @ApiBody({ type: UpdateBlogsDto })
   @ApiOperation({ summary: 'Update Blog' })
   async update(
@@ -72,6 +79,7 @@ export class BlogsController {
   }
 
   @Delete(':id')
+  @UseGuards(RoleGuard(Role.Admin))
   @ApiOperation({ summary: 'Delete Blog' })
   async remove(@Param('id') id: string): Promise<IBlogs> {
     return this.blogsService.remove(id);

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -14,6 +15,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import RoleGuard from 'src/auth/guards/role.guard';
+import { Role } from 'src/user/entities/user.entity';
 import { CreateProgramDto } from './dto/create.program.dto';
 import { UpdateProgramDto } from './dto/update.program.dto';
 import IProgram from './programs.interface';
@@ -30,6 +33,7 @@ export class ProgramController {
   @ApiBody({ type: CreateProgramDto })
   @ApiOperation({ summary: 'Create Program' })
   @ApiResponse({ status: 400, description: 'BadRequest.' })
+  @UseGuards(RoleGuard(null, [Role.TourGuide, Role.Admin]))
   async create(@Body() createProgramDto: CreateProgramDto): Promise<IProgram> {
     return this.programService.create(createProgramDto);
   }
@@ -47,17 +51,19 @@ export class ProgramController {
     return { Programs, count };
   }
   @Get(':id')
-  async getUser( @Param('id') id: string): Promise<any> {
+  async getUser(@Param('id') id: string): Promise<any> {
     return await this.programService.getUserInfo(id);
   }
 
   @Delete(':id')
+  @UseGuards(RoleGuard(Role.Admin))
   @ApiOperation({ summary: 'Delete Program' })
   async remove(@Param('id') id: string): Promise<IProgram> {
     return this.programService.remove(id);
   }
 
   @Patch(':id')
+  @UseGuards(RoleGuard(null, [Role.TourGuide, Role.Admin]))
   @ApiBody({ type: UpdateProgramDto })
   @ApiOperation({ summary: 'Update Program' })
   async update(

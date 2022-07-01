@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -8,6 +9,7 @@ import {
   Patch,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -15,6 +17,8 @@ import { UpdateReviewDto } from './dto/update-review.dto';
 import IReview from './review.interface';
 import { ReviewService } from './review.service';
 import { Request } from 'express';
+import RoleGuard from 'src/auth/guards/role.guard';
+import { Role } from 'src/user/entities/user.entity';
 
 @Controller('review')
 export class ReviewController {
@@ -54,10 +58,16 @@ export class ReviewController {
   @Patch(':id')
   @ApiBody({ type: UpdateReviewDto })
   @ApiOperation({ summary: 'Update Review' })
+  @UseGuards(RoleGuard(Role.Admin))
   async update(
     @Param('id') id: string,
     @Body() updateReviewDto: UpdateReviewDto,
   ): Promise<IReview> {
     return await this.ReviewService.update(id, updateReviewDto);
   }
+  // TODO: Add delete route
+  // @Delete(':id')
+  // @ApiOperation({ summary: 'Delete Review' })
+  // @UseGuards(RoleGuard(Role.Admin))
+  // async remove(@Param('id') id: string): Promise<IReview> {}
 }

@@ -7,6 +7,7 @@ export default interface IUser extends Document {
   phone_number: string;
   nationality: string;
   gender: string;
+  role: string;
 }
 
 export interface UserQuery {
