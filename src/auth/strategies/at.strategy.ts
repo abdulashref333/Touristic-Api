@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
           const token = request?.cookies['token'];
-          console.log({ token });
+          // console.log({ token });
           if (!token) {
             return null;
           }
@@ -24,11 +24,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       ignoreExpiration: false,
       passReqToCallback: false,
     });
-    console.log({ ExtractJwt });
   }
 
   validate(payload: JwtPayload): Promise<IUser> {
-    console.log('i am here on jwt strategy.');
+    // console.log('i am here on jwt strategy.');
     return this.authService.verifyPayload(payload);
   }
 }

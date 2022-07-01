@@ -50,6 +50,7 @@ export class BlogsService {
       .select('userId')
       .populate('userId');
     return { user: user.userId };
+    return await this.blogsModel.find({ approved: true }).exec();
   }
 
   async update(id: string, updateBlogsDto: UpdateBlogsDto) {

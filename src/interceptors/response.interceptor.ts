@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 export interface Response<T> {
   status: number;
   data: T;
+  msg: string;
 }
 
 @Injectable()
@@ -25,7 +26,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
       map((data) => ({
         status: 200,
         data,
-        msg: data ? 'success' : `${request.url.split('/')[1]} Not Founded!`,
+        msg: data.msg ? data.msg : 'success',
       })),
     );
   }
