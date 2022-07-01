@@ -9,6 +9,7 @@ import {
   Query,
   Res,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -27,6 +28,8 @@ import { RestaurantService } from './restaurant.service';
 import { Request, Response } from 'express';
 import * as multer from 'multer';
 import * as fs from 'fs';
+import RoleGuard from 'src/auth/guards/role.guard';
+import { Role } from 'src/user/entities/user.entity';
 
 const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
@@ -46,15 +49,14 @@ export class RestaurantController {
   @ApiBody({ type: CreateRestaurantDto })
   @ApiOperation({ summary: 'Create Restaurant' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @UseGuards(RoleGuard(Role.Admin))
   @UseInterceptors(
     FileFieldsInterceptor(
       [
         { name: 'photos[]', maxCount: 3 },
         { name: 'menu[]', maxCount: 1 },
       ],
-      {
-        storage: storage,
-      },
+      { storage: storage },
     ),
   )
   async create(
@@ -83,6 +85,7 @@ export class RestaurantController {
   }
 
   @Patch(':id')
+  @UseGuards(RoleGuard(Role.Admin))
   async update(
     @Param('id') id: string,
     @Body() updateRestaurantDto: UpdateRestaurantDto,
@@ -91,6 +94,7 @@ export class RestaurantController {
   }
 
   @Delete(':id')
+  @UseGuards(RoleGuard(Role.Admin))
   async remove(@Param('id') id: string): Promise<IRestaurant> {
     return this.restaurantService.remove(id);
   }

@@ -24,6 +24,8 @@ import {
 } from '@nestjs/swagger';
 import { Request } from 'express';
 import { JWTAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import RoleGuard from 'src/auth/guards/role.guard';
+import { Role } from './entities/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -59,6 +61,7 @@ export class UserController {
   @ApiQuery({ name: 'email', type: 'string', required: false })
   @ApiQuery({ name: 'id', type: 'string', required: false })
   @ApiQuery({ name: 'job', type: 'string', required: false })
+  @UseGuards(JWTAuthGuard)
   async findOne(@Query() query: UserQuery): Promise<IUser> {
     return this.userService.findOne(query);
   }
@@ -66,27 +69,19 @@ export class UserController {
   @Patch(':id')
   @ApiBody({ type: UpdateUserDto })
   @ApiOperation({ summary: 'Update User' })
+  @UseGuards(JWTAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<IUser> {
+    // console.log({ updateUserDto });
     return await this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Update User' })
+  @UseGuards(RoleGuard(Role.Admin))
   async remove(@Param('id') id: string): Promise<IUser> {
     return this.userService.remove(id);
   }
 }
-// app.get('users', usercontroller.getuser);
-// app.get('users/:id')
-// getuser(req, res, next) {
-//   // here the logic of user controller.
-// }
-
-// class user {
-//   findall() {
-//     return 'users...';
-//   }
-// }

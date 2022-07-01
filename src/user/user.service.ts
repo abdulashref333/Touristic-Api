@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserQuery } from './user.interface';
 import { IUserModel, UserEntity } from './entities/user.entity';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
+import { UtilsService } from 'src/common/utils/utils.service';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
     @InjectModel('User') private userModel: IUserModel,
     @InjectQueryService(UserEntity)
     readonly userService: QueryService<UserEntity>,
+    private utileService: UtilsService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -55,16 +57,16 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const userExist = await this.userModel.findById(id).exec();
+    let userExist = await this.userModel.findById(id).exec();
     if (!userExist)
       throw new HttpException(
         'This email is exist, please provide another email.',
         HttpStatus.BAD_REQUEST,
       );
     // this update function is gonna be a common update
-    Object.keys(updateUserDto).forEach((key) => {
-      if (updateUserDto[key]) userExist[key] = updateUserDto[key];
-    });
+    // console.log({ updateUserDto });
+    userExist = this.utileService.getUpdatedDoc(userExist, updateUserDto);
+    // console.log({ userExist });
     const updatedUser = this.userModel
       .findByIdAndUpdate(id, userExist, {
         new: true,

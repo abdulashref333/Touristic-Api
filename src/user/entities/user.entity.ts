@@ -10,51 +10,13 @@ export interface IUserModel extends Model<IUser> {
   findByEmail: (email: string) => IUser;
 }
 
-/*
-// export const UserSchema = new Schema(
-//   {
-//     name: {
-//       type: String,
-//       required: true,
-//     },
-//     email: {
-//       type: String,
-//       required: [true, 'Email is required!'],
-//       trim: true,
-//       unique: true,
-//       lowercase: true,
-//       validate: {
-//         validator: function (v) {
-//           return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(v);
-//         },
-//         message: 'Please enter a valid email.',
-//       },
-//     },
-//     password: {
-//       type: String,
-//       trim: true,
-//       required: true,
-//       minlength: 8,
-//     },
-//     phone_number: {
-//       type: String,
-//       trim: true,
-//       required: true,
-//       maxlength: 11,
-//     },
-//     job: {
-//       type: String,
-//       enum: ['admin', 'customer', 'tourguide'],
-//       trim: true,
-//       lowercase: true,
-//     },
-//   },
-//   { timestamps: true },
-// );
-*/
+export enum Role {
+  User = 'User',
+  Admin = 'Admin',
+  TourGuide = 'Tour_Guide',
+}
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class UserEntity extends Document {
-  
   @Prop({ required: true })
   name: string;
 
@@ -73,6 +35,9 @@ export class UserEntity extends Document {
 
   @Prop()
   gender: string;
+
+  @Prop({ default: Role.User, enum: Role })
+  role: Role;
 }
 export const UserEntitySchema = SchemaFactory.createForClass(UserEntity);
 

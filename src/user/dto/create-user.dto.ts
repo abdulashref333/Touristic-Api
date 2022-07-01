@@ -4,9 +4,11 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+import { Role } from '../entities/user.entity';
 
 enum Gender {
   male = 'male',
@@ -55,4 +57,10 @@ export class CreateUserDto {
   @IsString()
   @IsEnum(Gender)
   gender: Gender;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  @IsEnum(Role)
+  role: Role;
 }

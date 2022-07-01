@@ -8,8 +8,12 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { JWTAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import RoleGuard from 'src/auth/guards/role.guard';
+import { Role } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import IComments from './comments.interface';
 import { CommentsService } from './comments.service';
@@ -24,6 +28,7 @@ export class CommentsController {
   ) {}
 
   @Post()
+  @UseGuards(JWTAuthGuard)
   @ApiBody({ type: CreateCommentDto })
   @ApiOperation({ summary: 'Create comment' })
   @ApiResponse({ status: 401, description: 'BadRequest.' })
@@ -58,6 +63,7 @@ export class CommentsController {
   }
 
   @Patch(':id')
+  @UseGuards(JWTAuthGuard)
   @ApiBody({ type: UpdateCommentDto })
   @ApiOperation({ summary: 'Update Comment' })
   async update(
@@ -68,6 +74,7 @@ export class CommentsController {
   }
 
   @Delete(':id')
+  @UseGuards(RoleGuard(Role.Admin))
   @ApiOperation({ summary: 'Delete Comment' })
   async remove(@Param('id') id: string): Promise<IComments> {
     return this.commentsService.remove(id);

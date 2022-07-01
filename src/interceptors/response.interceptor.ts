@@ -24,7 +24,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     const request = ctx.getRequest<IncomingMessage>();
     return next.handle().pipe(
       map((data) => {
-        console.log({ data });
+        // console.log({ data });
         return data;
       }),
     );
