@@ -10,6 +10,7 @@ import { ProgramModule } from './programs/programs.module';
 import { AuthModule } from './auth/auth.module';
 import { HistoricalPlacesModule } from './historical_places/historical_places.module';
 import { BlogsModule } from './blogs/blogs.module';
+import { ImageModule } from './image/image.module';
 @Module({
   imports: [
     UserModule,
@@ -27,6 +28,7 @@ import { BlogsModule } from './blogs/blogs.module';
     AuthModule,
     HistoricalPlacesModule,
     BlogsModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
