@@ -11,6 +11,8 @@ import { AuthModule } from './auth/auth.module';
 import { HistoricalPlacesModule } from './historical_places/historical_places.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { ImageModule } from './image/image.module';
+import { ReviewModule } from './review/review.module';
+import { CommentsModule } from './comments/comments.module';
 @Module({
   imports: [
     UserModule,
@@ -29,6 +31,8 @@ import { ImageModule } from './image/image.module';
     HistoricalPlacesModule,
     BlogsModule,
     ImageModule,
+    ReviewModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

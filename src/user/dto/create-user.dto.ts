@@ -10,7 +10,7 @@ import {
 
 enum Gender {
   male = 'male',
-  femal = 'female',
+  female = 'female',
   other = 'other',
 }
 export class CreateUserDto {

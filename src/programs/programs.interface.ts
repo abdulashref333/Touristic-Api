@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export default interface IProgram extends Document {
-   userId:string;
+   userId:[{}];
     title: string;
     description: string;
     rating: number;
