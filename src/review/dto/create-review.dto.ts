@@ -1,50 +1,45 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
-  IsArray,
-  IsDate,
   IsDefined,
+  IsEnum,
   IsNotEmpty,
-  IsOptional,
+  IsNumber,
   IsString,
 } from 'class-validator';
 
-export class CreateBlogsDto {
+enum Category {
+  Restaurants = 'Restaurant',
+  HistoricalPlaces = 'HistoricalPlaces',
+  Programs = 'Program',
+}
+export class CreateReviewDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  userId: '';
+  userId: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  title: string;
+  itemId: string;
 
   @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
   @IsDefined()
-  @IsNotEmpty()
-  subtitle: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  photo: string;
-
-  @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
   body: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @IsArray()
-  tags: [string];
-
-  @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
-  @IsDate()
-  @Type(() => Date)
-  date: Date;
+  @IsNumber()
+  rating: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @IsEnum(Category)
+  category: Category;
 }

@@ -54,6 +54,7 @@ export interface IUserModel extends Model<IUser> {
 */
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class UserEntity extends Document {
+  
   @Prop({ required: true })
   name: string;
 

@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose from "mongoose";
 import { Model, Document } from 'mongoose';
 import IProgram from "../programs.interface";
 
@@ -11,8 +12,8 @@ export class ProgramEntity extends Document {
   @Prop({ required: true })
   title: string;
 
-  @Prop()
-  userId: string;
+  @Prop({required: true ,type:mongoose.Types.ObjectId, ref:"User"})
+  userId: [{}];
 
   @Prop()
   description: string;

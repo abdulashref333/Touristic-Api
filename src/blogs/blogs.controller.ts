@@ -49,6 +49,11 @@ export class BlogsController {
     return await this.blogsService.count();
   }
 
+  @Get(':id')
+  async getUser(@Param('id') id: string): Promise<any> {
+    return await this.blogsService.getUserInfo(id);
+  }
+
   @Get()
   async findAll(): Promise<any> {
     const blogs = await this.blogsService.getAllBlogs();
