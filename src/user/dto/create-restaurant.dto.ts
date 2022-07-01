@@ -9,9 +9,7 @@ import {
   IsString,
 } from 'class-validator';
 
-
 export class CreateRestaurantDto {
- 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
@@ -22,7 +20,7 @@ export class CreateRestaurantDto {
   @IsNotEmpty()
   @IsString()
   @IsDefined()
- description: string;
+  description: string;
 
   @ApiProperty()
   @IsDefined()
@@ -31,17 +29,17 @@ export class CreateRestaurantDto {
   @ArrayMaxSize(2)
   location: [string];
 
-  @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsArray()
-  photos: [string];
+  // @ApiProperty()
+  // @IsDefined()
+  // @IsNotEmpty()
+  // @IsArray()
+  // photos: [string];
 
-  @ApiProperty()
-  @IsDefined() 
-  @IsNotEmpty()
-  @IsArray()
-  menu: [string];
+  // @ApiProperty()
+  // @IsDefined()
+  // @IsNotEmpty()
+  // @IsArray()
+  // menu: [string];
 
   @ApiProperty()
   @IsDefined()
@@ -53,17 +51,17 @@ export class CreateRestaurantDto {
   @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
-  openTime: Number;
+  openTime: number;
 
   @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
-  closeTime: Number;
+  closeTime: number;
 
   @ApiProperty()
   @IsOptional()
   @IsPhoneNumber()
-  restaurantPhoneNumber:string;
+  restaurantPhoneNumber: string;
 
   @ApiProperty()
   @IsOptional()

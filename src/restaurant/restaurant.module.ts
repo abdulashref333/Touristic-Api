@@ -2,6 +2,7 @@ import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommonModule } from 'src/common/common.module';
+import { ImageModule } from 'src/image/image.module';
 import {
   RestaurantEntity,
   RestaurantEntitySchema,

@@ -1,13 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
-    ArrayMinSize,
-    IsArray,
+  IsArray,
   IsDefined,
   IsNotEmpty,
-  IsNumber,
   IsString,
-  
 } from 'class-validator';
 
 export class CreateHistoricalPlaceDto {
@@ -17,45 +14,38 @@ export class CreateHistoricalPlaceDto {
   @IsDefined()
   name: string;
 
-
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  story:string;
+  story: string;
 
   @ApiProperty()
-  avgRating:number
+  avgRating: number;
 
   @ApiProperty()
-  countRating:number
+  countRating: number;
   @ApiProperty()
-  sumRating:number
-
-
-  @ApiProperty()
-  reviews:[{user:string ,review:string,rating:number}];
+  sumRating: number;
 
   @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsArray()
-  photos:[string];
+  reviews: [{ user: string; review: string; rating: number }];
 
   @ApiProperty()
   @IsNotEmpty()
   @IsArray()
   @ArrayMaxSize(2)
-  location:[string];
+  location: [string];
 
   @ApiProperty()
   @IsNotEmpty()
   @IsArray()
   @ArrayMaxSize(7)
-  availableDays: [{
-    day:string,
-     from:number,
-     to:number
-    
-  }]
+  availableDays: [
+    {
+      day: string;
+      from: number;
+      to: number;
+    },
+  ];
 }

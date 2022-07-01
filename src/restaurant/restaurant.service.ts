@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateRestaurantDto } from 'src/user/dto/create-restaurant.dto';
 import {
   IRestaurantModel,
   RestaurantEntity,
@@ -17,7 +16,7 @@ export class RestaurantService {
     private utilsService: UtilsService,
   ) {}
 
-  async create(createRestaurantDto: CreateRestaurantDto) {
+  async create(createRestaurantDto) {
     const restaurantExist = await this.restaurantModel.findOne({
       location: createRestaurantDto.location,
       name: createRestaurantDto.name,

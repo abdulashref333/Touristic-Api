@@ -23,11 +23,10 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
     const ctx = context.switchToHttp();
     const request = ctx.getRequest<IncomingMessage>();
     return next.handle().pipe(
-      map((data) => ({
-        status: 200,
-        data,
-        msg: data.msg ? data.msg : 'success',
-      })),
+      map((data) => {
+        console.log({ data });
+        return data;
+      }),
     );
   }
 }

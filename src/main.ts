@@ -6,6 +6,8 @@ import { LoggingIncomingReqInterceptor } from './interceptors/logging.intercepto
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
+import * as multer from 'multer';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,6 +19,9 @@ async function bootstrap() {
   // };
   app.enableCors();
   app.use(cookieParser());
+  // app.use(multer);
+  // app.use(bodyParser.urlencoded({ extended: true }));
+  // app.use(bodyParser.json());
   app.useGlobalFilters(new GlobalExceptionFilter(new Logger()));
   app.useGlobalInterceptors(
     new ResponseInterceptor(),
