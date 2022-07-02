@@ -58,12 +58,13 @@ export class RestaurantService {
 
   async getAllRestaurants(filter) {
     filter = this.utilsService.parseQuery(filter);
-    // console.log({ filter });
     const restaurants =
-      filter.length !== 0
+      Object.keys(filter).length !== 0
         ? await this.RestaurantService.query(filter)
         : await this.restaurantModel.find().limit(10).exec();
+    // console.log('i am here.');
     const count = await this.restaurantModel.count();
+
     return { restaurants, count };
   }
 

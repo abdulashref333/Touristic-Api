@@ -98,6 +98,7 @@ export class RestaurantController {
 
   @Get()
   async findAll(@Query() query): Promise<any> {
+    // console.log('i am here.');
     return await this.restaurantService.getAllRestaurants(query);
   }
 

@@ -30,7 +30,6 @@ export class ProgramService {
       userId: createProgramDto.userId,
       title: createProgramDto.title,
       description: createProgramDto.description,
-      rating: createProgramDto.rating,
       numOfDays: createProgramDto.numOfDays,
       price: createProgramDto.price,
       details: createProgramDto.details,

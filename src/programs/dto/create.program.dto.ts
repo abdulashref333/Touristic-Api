@@ -27,10 +27,10 @@ export class CreateProgramDto {
   @IsDefined()
   description: string;
 
-  @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  rating: number;
+  // @ApiProperty()
+  // @IsDefined()
+  // @IsNotEmpty()
+  // rating: number;
 
   @ApiProperty()
   @IsDefined()

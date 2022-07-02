@@ -27,6 +27,12 @@ export class UtilsService {
       else newQuery.filter[f] = query[f];
     });
     // console.log('newQuery: ', newQuery);
+
+    Object.keys(newQuery).forEach((key) => {
+      if (Object.keys(newQuery[key]).length == 0) delete newQuery[key];
+    });
+    // console.log('newQuery after: ', newQuery);
+
     return newQuery;
   }
 }
