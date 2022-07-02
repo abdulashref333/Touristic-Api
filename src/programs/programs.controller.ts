@@ -52,7 +52,7 @@ export class ProgramController {
   }
   @Get(':id')
   async getUser(@Param('id') id: string): Promise<any> {
-    return await this.programService.getUserInfo(id);
+    return await this.programService.getProgramById(id);
   }
 
   @Delete(':id')

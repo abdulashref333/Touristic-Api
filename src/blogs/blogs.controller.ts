@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -41,11 +42,12 @@ export class BlogsController {
   @ApiOperation({ summary: 'Create Blog' })
   @ApiResponse({ status: 401, description: 'BadRequest.' })
   async create(@Body() createBlogsDto: CreateBlogsDto): Promise<IBlogs> {
-    if (!(await this.userService.isUserExist(createBlogsDto.userId)))
-      throw new HttpException(
-        'This user is not exist, please provide another userId.',
-        HttpStatus.BAD_REQUEST,
-      );
+    // if (!(await this.userService.isUserExist(createBlogsDto.userId)))
+    //   throw new HttpException(
+    //     'This user is not exist, please provide another userId.',
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    console.log({ createBlogsDto });
     return this.blogsService.create(createBlogsDto);
   }
 
@@ -57,12 +59,12 @@ export class BlogsController {
 
   @Get(':id')
   async getUser(@Param('id') id: string): Promise<any> {
-    return await this.blogsService.getUserInfo(id);
+    return await this.blogsService.getBlogWithComments(id);
   }
 
   @Get()
-  async findAll(): Promise<any> {
-    const blogs = await this.blogsService.getAllBlogs();
+  async findAll(@Query() query): Promise<any> {
+    const blogs = await this.blogsService.getAllBlogs(query);
     const count = await this.blogsService.count();
     return { blogs, count };
   }

@@ -28,13 +28,13 @@ export class CreateBlogsDto {
   subtitle: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  photo: string;
-
-  @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
   body: string;
+
+  @ApiProperty()
+  @IsOptional()
+  approved: boolean;
 
   @ApiProperty()
   @IsNotEmpty()

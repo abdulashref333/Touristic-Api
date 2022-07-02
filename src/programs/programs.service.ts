@@ -47,13 +47,15 @@ export class ProgramService {
     return await this.programModel.find().populate('userId');
   }
 
-  async getUserInfo(id: string) {
+  async getProgramById(id: string) {
     const programs = await this.programModel
       .findOne({ userId: id })
       .select('userId')
       .populate('userId');
     return { user: programs.userId };
   }
+
+  // async getProgramById(id)
 
   async remove(id: string) {
     const result = await this.programModel.findByIdAndRemove(id).exec();

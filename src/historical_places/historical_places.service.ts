@@ -42,6 +42,10 @@ export class HistoricalPlacesService {
     return await this.historicalPlacesModel.find().exec();
   }
 
+  async getPlaceById(id: string) {
+    return await this.historicalPlacesModel.findById(id);
+  }
+
   async remove(id: string) {
     const result = await this.historicalPlacesModel
       .findByIdAndRemove(id)

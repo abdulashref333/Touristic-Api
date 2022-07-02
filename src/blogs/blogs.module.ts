@@ -1,6 +1,8 @@
 import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CommentsModule } from 'src/comments/comments.module';
+import { CommentsService } from 'src/comments/comments.service';
 import { CommonModule } from 'src/common/common.module';
 import { UserModule } from 'src/user/user.module';
 import { BlogsController } from './blogs.controller';
@@ -19,6 +21,7 @@ import { BlogsEntity, BlogsSchema } from './entities/blog.entity';
     ]),
     CommonModule,
     UserModule,
+    CommentsModule,
   ],
 
   controllers: [BlogsController],

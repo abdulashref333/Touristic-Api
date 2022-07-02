@@ -1,11 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 import { Model, Document } from 'mongoose';
 import IBlogs from '../blogs.interface';
 
-export interface IBlogsModel extends Model<IBlogs> {}
+export type IBlogsModel = Model<IBlogs>;
 
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class BlogsEntity extends Document {
@@ -31,7 +30,17 @@ export class BlogsEntity extends Document {
   @Prop()
   date: Date;
 
-  @Prop()
+  @Prop({ default: false })
   approved: boolean;
+
+  @Prop({ default: false })
+  isRegected: boolean;
 }
 export const BlogsSchema = SchemaFactory.createForClass(BlogsEntity);
+BlogsSchema.pre(['find', 'findOne'], function (cb) {
+  // const query = this.getQuery();
+  // query.approved = query.approved !== undefined ? query.approved : true;
+  // // console.log(query);
+  // this.setQuery(query);
+  cb();
+});

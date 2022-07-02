@@ -18,7 +18,13 @@ export class RestaurantEntity extends Document {
   @Prop()
   photos: [string];
 
-  @Prop()
+  @Prop({ default: 0 })
+  countRating: number;
+
+  @Prop({ default: 0 })
+  sumRating: number;
+
+  @Prop({ default: 0 })
   rating: number;
 
   @Prop()
