@@ -12,6 +12,7 @@ export enum Category {
   Restaurants = 'Restaurant',
   HistoricalPlaces = 'HistoricalPlaces',
   Programs = 'Program',
+  Hostel = 'Hostel',
 }
 export class CreateReviewDto {
   @ApiProperty()

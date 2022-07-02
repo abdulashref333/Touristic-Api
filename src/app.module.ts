@@ -13,6 +13,7 @@ import { BlogsModule } from './blogs/blogs.module';
 import { ImageModule } from './image/image.module';
 import { ReviewModule } from './review/review.module';
 import { CommentsModule } from './comments/comments.module';
+import { HostelModule } from './hostel/hostel.module';
 @Module({
   imports: [
     UserModule,
@@ -33,6 +34,7 @@ import { CommentsModule } from './comments/comments.module';
     ImageModule,
     ReviewModule,
     CommentsModule,
+    HostelModule,
   ],
   controllers: [AppController],
   providers: [AppService],

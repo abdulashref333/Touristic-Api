@@ -1,25 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayMaxSize,
   IsArray,
   IsDefined,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
 } from 'class-validator';
 
-export class CreateProgramDto {
+export class CreateHostelDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  title: string;
+  email: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  userId: string;
+  name: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -30,29 +30,13 @@ export class CreateProgramDto {
   @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
-  rating: number;
-
-  @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsNumber()
-  numOfDays: number;
-
-  @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsNumber()
-  price: number;
-
-  @ApiProperty()
-  @IsOptional()
   @IsArray()
-  details: [
-    {
-      day: string;
-      places: [string];
-      typeOfTransport: string;
-      activities: [string];
-    },
-  ];
+  @ArrayMaxSize(2)
+  location: [string];
+
+  @ApiProperty()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  nightPrice: number;
 }

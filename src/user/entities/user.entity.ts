@@ -14,6 +14,7 @@ export enum Role {
   User = 'User',
   Admin = 'Admin',
   TourGuide = 'Tour_Guide',
+  HostelOwner = 'Hostel_Owner',
 }
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class UserEntity extends Document {

@@ -26,8 +26,7 @@ const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
     const name = String(req.body.name).split(' ').join('_');
     const path = `./images/historical_places/${name}`;
-    if (!fs.existsSync('./images/historical_places'))
-      fs.mkdirSync('./images/historical_places');
+
     if (!fs.existsSync(path)) fs.mkdirSync(path);
     cb(null, path);
   },

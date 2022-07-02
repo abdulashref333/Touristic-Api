@@ -54,7 +54,7 @@ export class BlogsService {
         })
       : await this.blogsModel
           .find()
-          .populate('userId', 'name email gender -_id');
+          .populate('userId', 'name email avatar gender -_id');
   }
 
   async getBlogWithComments(id: string) {

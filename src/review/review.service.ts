@@ -7,6 +7,7 @@ import { UpdateReviewDto } from './dto/update-review.dto';
 import { ProgramService } from 'src/programs/programs.service';
 import { RestaurantService } from 'src/restaurant/restaurant.service';
 import { HistoricalPlacesService } from 'src/historical_places/historical_places.service';
+import { HostelService } from 'src/hostel/hostel.service';
 
 @Injectable()
 export class ReviewService {
@@ -17,6 +18,7 @@ export class ReviewService {
     private programService: ProgramService,
     private restaurantService: RestaurantService,
     private historicalService: HistoricalPlacesService,
+    private hostelService: HostelService,
   ) {}
 
   async create(createReviewDto: CreateReviewDto) {
@@ -71,6 +73,10 @@ export class ReviewService {
     return updatedReview;
   }
 
+  async delete(id: string) {
+    return await this.ReviewModel.findByIdAndRemove(id);
+  }
+
   private async updateItem(category: string, item_id: string, rating: number) {
     let item;
     if (category == 'Program') {
@@ -81,6 +87,10 @@ export class ReviewService {
       item = await this.restaurantService.getRestaurantById(item_id);
       this.calculateNewRating(rating, item);
       this.restaurantService.update(item_id, item);
+    } else if (category == 'Hostel') {
+      item = await this.hostelService.findOne(item_id);
+      this.calculateNewRating(rating, item);
+      this.hostelService.update(item_id, item);
     } else {
       item = await this.historicalService.getPlaceById(item_id);
       this.calculateNewRating(rating, item);
