@@ -53,6 +53,10 @@ export class CreateUserDto {
   nationality: string;
 
   @ApiProperty()
+  @IsOptional()
+  avatar: string;
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsEnum(Gender)

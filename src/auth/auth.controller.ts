@@ -1,11 +1,31 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import IUser from 'src/user/user.interface';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { Request } from 'express';
+import * as multer from 'multer';
+import * as fs from 'fs';
 
+const storage = multer.diskStorage({
+  destination: (req: Request, file, cb) => {
+    const name = file.originalname.split('.')[0] + '_' + Date.now().toString();
+    const path = `./images/avatars/${name}`;
+    if (!fs.existsSync(path)) fs.mkdirSync(path);
+    cb(null, path);
+  },
+});
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -14,9 +34,16 @@ export class AuthController {
   @ApiBody({ type: CreateUserDto })
   @ApiOperation({ summary: 'Create User' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @UseInterceptors(FileInterceptor('avatar', { storage }))
   @UseInterceptors(TokenInterceptor)
-  async signup(@Body() createUserDto: CreateUserDto): Promise<IUser> {
-    return await this.authService.signUp(createUserDto);
+  async signup(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() file,
+  ): Promise<IUser> {
+    // console.log(file);
+    const avatar = file.path;
+    // return;
+    return await this.authService.signUp({ ...createUserDto, avatar });
   }
 
   @Post('login')

@@ -13,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(createUserDto: CreateUserDto) {
+  async signUp(createUserDto) {
     return await this.userService.create(createUserDto);
   }
 

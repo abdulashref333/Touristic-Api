@@ -9,6 +9,10 @@ import {
   Query,
   Req,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,7 +30,19 @@ import { Request } from 'express';
 import { JWTAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import RoleGuard from 'src/auth/guards/role.guard';
 import { Role } from './entities/user.entity';
+import * as multer from 'multer';
+import * as fs from 'fs';
+import { FileInterceptor } from '@nestjs/platform-express';
 
+const storage = multer.diskStorage({
+  destination: (req: Request, file, cb) => {
+    const name = file.originalname.split('.')[0] + '_' + Date.now().toString();
+    const path = `./images/avatars/${name}`;
+    // console.log({ path });
+    if (!fs.existsSync(path)) fs.mkdirSync(path);
+    cb(null, path);
+  },
+});
 @ApiTags('Users')
 @ApiBearerAuth()
 @Controller('users')
@@ -36,8 +52,25 @@ export class UserController {
   @ApiBody({ type: CreateUserDto })
   @ApiOperation({ summary: 'Create User' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
-    return this.userService.create(createUserDto);
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() file,
+  ): Promise<IUser> {
+    const avatar = file.path;
+    return this.userService.create({ ...createUserDto, avatar });
+  }
+
+  @Post('avatar/:id')
+  @UseInterceptors(FileInterceptor('avatar', { storage }))
+  @UseGuards(JWTAuthGuard)
+  async uploadAvatar(@Param('id') id: string, @UploadedFile() file) {
+    if (!file)
+      throw new HttpException(
+        'Avatar Must be Provided.',
+        HttpStatus.BAD_REQUEST,
+      );
+    const avatar = file.path;
+    return await this.update(id, { avatar });
   }
 
   @Get()

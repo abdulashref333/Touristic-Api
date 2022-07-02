@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserQuery } from './user.interface';
 import { IUserModel, UserEntity } from './entities/user.entity';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
 import { UtilsService } from 'src/common/utils/utils.service';
-
+import { Request } from 'express';
+import * as multer from 'multer';
+import * as fs from 'fs';
 @Injectable()
 export class UserService {
   constructor(
@@ -16,7 +17,7 @@ export class UserService {
     private utileService: UtilsService,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto) {
     const userExist = await this.userModel.findOne({
       email: createUserDto.email,
     });
@@ -33,6 +34,7 @@ export class UserService {
       nationality: createUserDto.nationality,
       phone_number: createUserDto.phone_number,
       gender: createUserDto.gender,
+      avatar: createUserDto.avatar || '',
     };
 
     const newUser = await this.userModel.create(user);
@@ -93,5 +95,18 @@ export class UserService {
     if (id) return await this.findUserById(id);
     if (email) return await this.findUserByEmail(email);
     return false;
+  }
+
+  getMulterConfig() {
+    const storage = multer.diskStorage({
+      destination: (req: Request, file, cb) => {
+        const name = String(req.body.first_name) + '_' + req.body.last_name;
+        const path = `./images/avatars/${name}`;
+        console.log({ path });
+        if (!fs.existsSync(path)) fs.mkdirSync(path);
+        cb(null, path);
+      },
+    });
+    return storage;
   }
 }
