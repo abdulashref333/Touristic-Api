@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConsoleLogger,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { BlogsEntity, IBlogsModel } from './entities/blog.entity';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
@@ -30,6 +35,7 @@ export class BlogsService {
     };
 
     const newBlog = await this.blogsModel.create(blog);
+    console.log({ newBlog });
     return newBlog.save();
   }
 
@@ -40,9 +46,12 @@ export class BlogsService {
 
   async getAllBlogs(filter) {
     this.utileService.parseQuery(filter);
-
+    console.log(filter);
     return Object.keys(filter).length !== 0
-      ? await this.blogsService.query(filter)
+      ? await this.blogsService.query({
+          filter: { title: filter.title },
+          paging: filter.paging,
+        })
       : await this.blogsModel
           .find()
           .populate('userId', 'name email gender -_id');

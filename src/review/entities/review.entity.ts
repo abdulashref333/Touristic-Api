@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import { Model, Document } from 'mongoose';
 import IReview from '../review.interface';
 
-export interface IReviewModel extends Model<IReview> {}
+export type IReviewModel = Model<IReview>;
 @Schema({ timestamps: { createdAt: 'created', updatedAt: 'updated' } })
 export class ReviewEntity extends Document {
   @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'User' })

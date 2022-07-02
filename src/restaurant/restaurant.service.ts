@@ -48,6 +48,9 @@ export class RestaurantService {
     return await this.RestaurantService.query(query);
   }
 
+  async getRestaurantById(id: string) {
+    return await this.restaurantModel.findById(id);
+  }
   async count() {
     return this.restaurantModel.count();
   }

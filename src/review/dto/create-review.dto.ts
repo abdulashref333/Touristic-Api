@@ -5,9 +5,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  Max,
 } from 'class-validator';
 
-enum Category {
+export enum Category {
   Restaurants = 'Restaurant',
   HistoricalPlaces = 'HistoricalPlaces',
   Programs = 'Program',
@@ -35,6 +36,7 @@ export class CreateReviewDto {
   @IsDefined()
   @IsNotEmpty()
   @IsNumber()
+  @Max(5)
   rating: number;
 
   @ApiProperty()

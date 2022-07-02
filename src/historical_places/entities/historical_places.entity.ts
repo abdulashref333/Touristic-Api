@@ -14,14 +14,14 @@ export class HistoricalPlacesEntity extends Document {
   @Prop()
   story: string;
 
-  @Prop()
-  avgRating: number;
-
-  @Prop()
+  @Prop({ default: 0 })
   countRating: number;
 
-  @Prop()
+  @Prop({ default: 0 })
   sumRating: number;
+
+  @Prop({ default: 0 })
+  rating: number;
 
   @Prop()
   photos: [string];

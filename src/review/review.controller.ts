@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -16,22 +17,23 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import IReview from './review.interface';
 import { ReviewService } from './review.service';
-import { Request } from 'express';
+import { query, Request } from 'express';
 import RoleGuard from 'src/auth/guards/role.guard';
 import { Role } from 'src/user/entities/user.entity';
+import { GetReviewDto } from './dto/get-review.dto';
 
-@Controller('review')
+@Controller('reviews')
 export class ReviewController {
   constructor(private readonly ReviewService: ReviewService) {}
 
-  async findAll(@Req() req: Request): Promise<any> {
-    const params = { ...req.body, ...req.query, ...req.params }; // this for merging all objects.
-    if (!params || !params.itemId || !params.category)
-      throw new HttpException(
-        'Invalid Request, should send item_id and category',
-        HttpStatus.BAD_REQUEST,
-      );
-  }
+  // async findAll(@Req() req: Request): Promise<any> {
+  //   const params = { ...req.body, ...req.query, ...req.params }; // this for merging all objects.
+  //   if (!params || !params.itemId || !params.category)
+  //     throw new HttpException(
+  //       'Invalid Request, should send item_id and category',
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  // }
 
   @Post()
   @ApiBody({ type: CreateReviewDto })
@@ -40,6 +42,7 @@ export class ReviewController {
   async create(@Body() createReviewDto: CreateReviewDto): Promise<IReview> {
     return this.ReviewService.create(createReviewDto);
   }
+
   @Get('/:id/:category')
   async getItemReviews(
     @Param('id') id: string,
@@ -49,8 +52,11 @@ export class ReviewController {
   }
 
   @Get()
-  async findAllReviews(): Promise<any> {
-    const reviews = await this.ReviewService.getAllReviews();
+  async findAllReviews(@Query() query: GetReviewDto): Promise<any> {
+    const reviews = await this.ReviewService.getAllReviews(
+      query.itemId,
+      query.category,
+    );
     const count = await this.ReviewService.count();
     return { reviews, count };
   }

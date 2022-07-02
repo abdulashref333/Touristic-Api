@@ -42,11 +42,12 @@ export class BlogsController {
   @ApiOperation({ summary: 'Create Blog' })
   @ApiResponse({ status: 401, description: 'BadRequest.' })
   async create(@Body() createBlogsDto: CreateBlogsDto): Promise<IBlogs> {
-    if (!(await this.userService.isUserExist(createBlogsDto.userId)))
-      throw new HttpException(
-        'This user is not exist, please provide another userId.',
-        HttpStatus.BAD_REQUEST,
-      );
+    // if (!(await this.userService.isUserExist(createBlogsDto.userId)))
+    //   throw new HttpException(
+    //     'This user is not exist, please provide another userId.',
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    console.log({ createBlogsDto });
     return this.blogsService.create(createBlogsDto);
   }
 

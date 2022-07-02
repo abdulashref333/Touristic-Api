@@ -38,9 +38,9 @@ export class BlogsEntity extends Document {
 }
 export const BlogsSchema = SchemaFactory.createForClass(BlogsEntity);
 BlogsSchema.pre(['find', 'findOne'], function (cb) {
-  const query = this.getQuery();
-  query.approved = query.approved !== undefined ? query.approved : true;
-  // console.log(query);
-  this.setQuery(query);
+  // const query = this.getQuery();
+  // query.approved = query.approved !== undefined ? query.approved : true;
+  // // console.log(query);
+  // this.setQuery(query);
   cb();
 });
