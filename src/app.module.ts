@@ -14,6 +14,7 @@ import { ImageModule } from './image/image.module';
 import { ReviewModule } from './review/review.module';
 import { CommentsModule } from './comments/comments.module';
 import { HostelModule } from './hostel/hostel.module';
+import { BookingModule } from './booking/booking.module';
 @Module({
   imports: [
     UserModule,
@@ -35,6 +36,7 @@ import { HostelModule } from './hostel/hostel.module';
     ReviewModule,
     CommentsModule,
     HostelModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
