@@ -44,6 +44,20 @@ export class HostelController {
   @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
   @UseGuards(RoleGuard(Role.Admin))
   create(@Body() createHostelDto: CreateHostelDto, @UploadedFiles() files) {
+    const photos = files.map((photo) => photo.path);
+    // console.log({ files });
+
+    return this.hostelService.create({
+      ...createHostelDto,
+      photos,
+    });
+  }
+
+  @Post('photo/:id')
+  @ApiResponse({ status: 400, description: 'BadRequest.' })
+  @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
+  @UseGuards(RoleGuard(Role.Admin))
+  uploadPhotos(@Param('id') id: string, @UploadedFiles() files) {
     if (!files)
       throw new HttpException(
         'Photos Must be Provided.',
@@ -52,10 +66,7 @@ export class HostelController {
     const photos = files.map((photo) => photo.path);
     // console.log({ files });
 
-    return this.hostelService.create({
-      ...createHostelDto,
-      photos,
-    });
+    return this.hostelService.update(id, { photos });
   }
 
   @Get()

@@ -29,17 +29,13 @@ export class CreateRestaurantDto {
   @ArrayMaxSize(2)
   location: [string];
 
-  // @ApiProperty()
-  // @IsDefined()
-  // @IsNotEmpty()
-  // @IsArray()
-  // photos: [string];
+  @ApiProperty()
+  @IsOptional()
+  photos: [string];
 
-  // @ApiProperty()
-  // @IsDefined()
-  // @IsNotEmpty()
-  // @IsArray()
-  // menu: [string];
+  @ApiProperty()
+  @IsOptional()
+  menu: [string];
 
   @ApiProperty()
   @IsDefined()

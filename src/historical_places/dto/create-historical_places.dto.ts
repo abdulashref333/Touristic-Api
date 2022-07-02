@@ -4,6 +4,7 @@ import {
   IsArray,
   IsDefined,
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -48,4 +49,8 @@ export class CreateHistoricalPlaceDto {
       to: number;
     },
   ];
+
+  @ApiProperty()
+  @IsOptional()
+  photos: [string];
 }

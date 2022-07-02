@@ -65,6 +65,26 @@ export class RestaurantController {
     return { data, msg: 'restaurant successfull created.' };
   }
 
+  @Post('photo/:id')
+  @UseGuards(RoleGuard(Role.Admin))
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'photos[]', maxCount: 3 },
+        { name: 'menu[]', maxCount: 1 },
+      ],
+      { storage: storage },
+    ),
+  )
+  async uploadePhotos(
+    @Param('id') id: string,
+    @UploadedFiles() files: { photos; menu },
+  ) {
+    const photos = files['photos[]'].map((photo) => photo.path);
+    const menu = files['menu[]'].map((photo) => photo.path);
+    return await this.restaurantService.update(id, { photos, menu });
+  }
+
   @Get('/count')
   async count() {
     return { data: await this.restaurantService.count(), msg: 'msg' };

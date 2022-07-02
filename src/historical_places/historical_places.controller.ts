@@ -47,13 +47,22 @@ export class HistoricalPlacesController {
     @Body() createHistoricalPlaceDto: CreateHistoricalPlaceDto,
     @UploadedFiles() files,
   ): Promise<IHistoricalPlaces> {
-    console.log(createHistoricalPlaceDto);
+    // console.log(createHistoricalPlaceDto);
     const photos = files ? files.map((photo) => photo.path) : [];
 
     return this.historicalPlacesService.create({
       ...createHistoricalPlaceDto,
       photos,
     });
+  }
+
+  @Post('photo/:id')
+  @UseGuards(RoleGuard(Role.Admin))
+  @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
+  async uploadePhotos(@Param('id') id: string, @UploadedFiles() files) {
+    const photos = files ? files.map((photo) => photo.path) : [];
+
+    return await this.historicalPlacesService.update(id, { photos });
   }
 
   @Get('/count')

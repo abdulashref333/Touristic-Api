@@ -5,6 +5,7 @@ import {
   IsDefined,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -39,4 +40,8 @@ export class CreateHostelDto {
   @IsNotEmpty()
   @IsNumber()
   nightPrice: number;
+
+  @ApiProperty()
+  @IsOptional()
+  photos: [string];
 }

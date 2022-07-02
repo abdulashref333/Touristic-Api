@@ -15,7 +15,7 @@ export class RestaurantEntity extends Document {
   @Prop()
   location: [string];
 
-  @Prop()
+  @Prop({ default: [] })
   photos: [string];
 
   @Prop({ default: 0 })
@@ -27,7 +27,7 @@ export class RestaurantEntity extends Document {
   @Prop({ default: 0 })
   rating: number;
 
-  @Prop()
+  @Prop({ default: [] })
   menu: [string];
 
   @Prop()
