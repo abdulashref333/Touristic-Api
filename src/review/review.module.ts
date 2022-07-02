@@ -2,6 +2,7 @@ import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HistoricalPlacesModule } from 'src/historical_places/historical_places.module';
+import { HostelModule } from 'src/hostel/hostel.module';
 import { ProgramModule } from 'src/programs/programs.module';
 import { RestaurantModule } from 'src/restaurant/restaurant.module';
 import { ReviewEntity, ReviewEntitySchema } from './entities/review.entity';
@@ -21,6 +22,7 @@ import { ReviewService } from './review.service';
     ProgramModule,
     HistoricalPlacesModule,
     RestaurantModule,
+    HostelModule,
   ],
   controllers: [ReviewController],
   providers: [ReviewService],

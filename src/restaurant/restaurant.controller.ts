@@ -6,26 +6,18 @@ import {
   Param,
   Patch,
   Post,
-  Query,
-  Res,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateRestaurantDto } from 'src/user/dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from 'src/user/dto/update.restaurant.dto';
 import IRestaurant from './restaurant.interface';
 import { RestaurantService } from './restaurant.service';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import * as multer from 'multer';
 import * as fs from 'fs';
 import RoleGuard from 'src/auth/guards/role.guard';
@@ -35,8 +27,7 @@ const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
     const name = String(req.body.name).split(' ').join('_');
     const path = `./images/restaurants/${name}`;
-    if (!fs.existsSync('./images/restaurants'))
-      fs.mkdirSync('./images/restaurants');
+
     if (!fs.existsSync(path)) fs.mkdirSync(path);
     cb(null, path);
   },

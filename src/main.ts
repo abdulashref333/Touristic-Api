@@ -7,7 +7,7 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-import * as multer from 'multer';
+import * as fs from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,11 +17,10 @@ async function bootstrap() {
   // const cookieParserOptions: CookieParseOptions = {
   //   maxAge: Number(60 * 60 * 24 * 7), // 1 week
   // };
+  // app.use(bodyParser.json());
   app.enableCors();
   app.use(cookieParser());
-  // app.use(multer);
-  // app.use(bodyParser.urlencoded({ extended: true }));
-  // app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.useGlobalFilters(new GlobalExceptionFilter(new Logger()));
   app.useGlobalInterceptors(
     new ResponseInterceptor(),
@@ -41,6 +40,16 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  // create images file structuer.
+  if (!fs.existsSync('./images')) fs.mkdirSync('./images');
+  if (!fs.existsSync('./images/avatars')) fs.mkdirSync('./images/avatars');
+  if (!fs.existsSync('./images/blogs')) fs.mkdirSync('./images/blogs');
+  if (!fs.existsSync('./images/hostels')) fs.mkdirSync('./images/hostels');
+  if (!fs.existsSync('./images/restaurants'))
+    fs.mkdirSync('./images/restaurants');
+  if (!fs.existsSync('./images/historical_places'))
+    fs.mkdirSync('./images/historical_places');
 
   await app.listen(parseInt(process.env.PORT) || 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
