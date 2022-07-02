@@ -34,7 +34,7 @@ export class BlogsEntity extends Document {
   approved: boolean;
 
   @Prop({ default: false })
-  isRegected: boolean;
+  rejected: boolean;
 }
 export const BlogsSchema = SchemaFactory.createForClass(BlogsEntity);
 BlogsSchema.pre(['find', 'findOne'], function (cb) {

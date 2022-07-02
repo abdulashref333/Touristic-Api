@@ -34,7 +34,7 @@ export class HostelService {
   }
 
   async findAll(filter) {
-    this.utilsService.parseQuery(filter);
+    filter = this.utilsService.parseQuery(filter);
     return filter.length !== 0
       ? await this.hostelService.query(filter)
       : await this.hostelModel

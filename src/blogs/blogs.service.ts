@@ -1,9 +1,4 @@
-import {
-  ConsoleLogger,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { BlogsEntity, IBlogsModel } from './entities/blog.entity';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
@@ -27,7 +22,7 @@ export class BlogsService {
       userId: createBlogsDto.userId,
       title: createBlogsDto.title,
       subtitle: createBlogsDto.subtitle,
-      // photo: createBlogsDto.photo,
+      photo: createBlogsDto.photo,
       body: createBlogsDto.body,
       tags: createBlogsDto.tags,
       date: createBlogsDto.date,
@@ -45,20 +40,25 @@ export class BlogsService {
   }
 
   async getAllBlogs(filter) {
-    this.utileService.parseQuery(filter);
+    filter = this.utileService.parseQuery(filter);
+    console.log({ filter });
+    filter.filter = {
+      ...filter.filter,
+      approved: { eq: true },
+      rejected: { eq: false },
+    };
     console.log(filter);
     return Object.keys(filter).length !== 0
-      ? await this.blogsService.query({
-          filter: { title: filter.title },
-          paging: filter.paging,
-        })
+      ? await this.blogsService.query(filter)
       : await this.blogsModel
-          .find()
+          .find({ approved: true, rejected: false })
           .populate('userId', 'name email avatar gender -_id');
   }
 
   async getBlogWithComments(id: string) {
-    const blog = await this.blogsModel.findOne({ id }).populate('userId');
+    const blog = await this.blogsModel
+      .findOne({ id, approved: true, rejected: false })
+      .populate('userId');
     const comments = await this.commentService.findCommentsByBlogId(id);
     return { ...blog.toJSON(), comments };
   }

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -45,8 +46,8 @@ export class ProgramController {
   }
 
   @Get()
-  async findAll(): Promise<any> {
-    const Programs = await this.programService.getAllPrograms();
+  async findAll(@Query() query): Promise<any> {
+    const Programs = await this.programService.getAllPrograms(query);
     const count = await this.programService.count();
     return { Programs, count };
   }

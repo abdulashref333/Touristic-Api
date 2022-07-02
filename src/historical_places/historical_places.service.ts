@@ -6,6 +6,7 @@ import {
 } from './entities/historical_places.entity';
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
 import { UpdateHistoricalPlacesDto } from './dto/update-historical_places.dto';
+import { UtilsService } from 'src/common/utils/utils.service';
 
 @Injectable()
 export class HistoricalPlacesService {
@@ -14,6 +15,7 @@ export class HistoricalPlacesService {
     private historicalPlacesModel: IHistoricalPlacesModel,
     @InjectQueryService(HistoricalPlacesEntity)
     readonly historicalPlacesService: QueryService<HistoricalPlacesEntity>,
+    private utileService: UtilsService,
   ) {}
 
   async create(createHistoricalPlaceDto) {
@@ -38,8 +40,12 @@ export class HistoricalPlacesService {
     return await count;
   }
 
-  async getAllPlaces() {
-    return await this.historicalPlacesModel.find().exec();
+  async getAllPlaces(filter) {
+    filter = this.utileService.parseQuery(filter);
+
+    return filter.length !== 0
+      ? await this.historicalPlacesService.query(filter)
+      : await this.historicalPlacesModel.find().limit(10).exec();
   }
 
   async getPlaceById(id: string) {

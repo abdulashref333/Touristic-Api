@@ -4,6 +4,7 @@ import { QueryService, InjectQueryService } from '@nestjs-query/core';
 import { IProgramModel, ProgramEntity } from './entities/program.entity';
 import { CreateProgramDto } from './dto/create.program.dto';
 import { UpdateProgramDto } from './dto/update.program.dto';
+import { UtilsService } from 'src/common/utils/utils.service';
 
 @Injectable()
 export class ProgramService {
@@ -11,6 +12,7 @@ export class ProgramService {
     @InjectModel('Program') private programModel: IProgramModel,
     @InjectQueryService(ProgramEntity)
     readonly ProgramService: QueryService<ProgramEntity>,
+    private utileService: UtilsService,
   ) {}
 
   async create(createProgramDto: CreateProgramDto) {
@@ -43,8 +45,16 @@ export class ProgramService {
     return await count;
   }
 
-  async getAllPrograms() {
-    return await this.programModel.find().populate('userId');
+  async getAllPrograms(filter) {
+    filter = this.utileService.parseQuery(filter);
+
+    return Object.keys(filter).length !== 0
+      ? await this.ProgramService.query(filter)
+      : await this.programModel
+          .find()
+          .limit(10)
+          .populate('userId', 'name email avatar gender -_id');
+    // return await this.programModel.find().populate('userId');
   }
 
   async getProgramById(id: string) {

@@ -1,6 +1,7 @@
 import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CommonModule } from 'src/common/common.module';
 import {
   HistoricalPlacesEntity,
   HistoricalPlacesSchema,
@@ -20,6 +21,7 @@ import { HistoricalPlacesService } from './historical_places.service';
         schema: HistoricalPlacesSchema,
       },
     ]),
+    CommonModule,
   ],
 
   controllers: [HistoricalPlacesController],

@@ -7,6 +7,7 @@ import {
 import { QueryService, InjectQueryService } from '@nestjs-query/core';
 import { UpdateRestaurantDto } from 'src/user/dto/update.restaurant.dto';
 import { UtilsService } from 'src/common/utils/utils.service';
+import { SortDirection } from '@nestjs-query/core';
 @Injectable()
 export class RestaurantService {
   constructor(
@@ -55,8 +56,13 @@ export class RestaurantService {
     return this.restaurantModel.count();
   }
 
-  async getAllRestaurants() {
-    const restaurants = await this.restaurantModel.find().exec();
+  async getAllRestaurants(filter) {
+    filter = this.utilsService.parseQuery(filter);
+    // console.log({ filter });
+    const restaurants =
+      filter.length !== 0
+        ? await this.RestaurantService.query(filter)
+        : await this.restaurantModel.find().limit(10).exec();
     const count = await this.restaurantModel.count();
     return { restaurants, count };
   }

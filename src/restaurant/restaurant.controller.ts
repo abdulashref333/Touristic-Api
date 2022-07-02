@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -90,9 +91,9 @@ export class RestaurantController {
     return { data: await this.restaurantService.count(), msg: 'msg' };
   }
 
-  @Get('')
-  async findAll(): Promise<any> {
-    return await this.restaurantService.getAllRestaurants();
+  @Get()
+  async findAll(@Query() query): Promise<any> {
+    return await this.restaurantService.getAllRestaurants(query);
   }
 
   @Patch(':id')

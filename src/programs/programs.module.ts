@@ -1,6 +1,7 @@
 import { NestjsQueryMongooseModule } from '@nestjs-query/query-mongoose';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CommonModule } from 'src/common/common.module';
 import { ProgramEntity, ProgramEntitySchema } from './entities/program.entity';
 import { ProgramController } from './programs.controller';
 import { ProgramService } from './programs.service';
@@ -17,6 +18,7 @@ import { ProgramService } from './programs.service';
         schema: ProgramEntity,
       },
     ]),
+    CommonModule,
   ],
   controllers: [ProgramController],
   providers: [ProgramService],

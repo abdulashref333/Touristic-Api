@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -71,8 +72,10 @@ export class HistoricalPlacesController {
   }
 
   @Get()
-  async findAll(): Promise<any> {
-    const historicalPlaces = await this.historicalPlacesService.getAllPlaces();
+  async findAll(@Query() query): Promise<any> {
+    const historicalPlaces = await this.historicalPlacesService.getAllPlaces(
+      query,
+    );
     const count = await this.historicalPlacesService.count();
     return { historicalPlaces, count };
   }
