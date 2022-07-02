@@ -34,6 +34,10 @@ export class CreateBlogsDto {
 
   @ApiProperty()
   @IsOptional()
+  photo: string;
+
+  @ApiProperty()
+  @IsOptional()
   approved: boolean;
 
   @ApiProperty()

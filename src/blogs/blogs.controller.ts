@@ -9,7 +9,9 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -26,7 +28,20 @@ import IBlogs from './blogs.interface';
 import { BlogsService } from './blogs.service';
 import { CreateBlogsDto } from './dto/create-blog.dto';
 import { UpdateBlogsDto } from './dto/update-blog.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Request } from 'express';
+import * as multer from 'multer';
+import * as fs from 'fs';
 
+const storage = multer.diskStorage({
+  destination: (req: Request, file, cb) => {
+    const name = file.originalname.split('.')[0] + '_' + Date.now().toString();
+    const path = `./images/avatars/${name}`;
+    // console.log({ path });
+    if (!fs.existsSync(path)) fs.mkdirSync(path);
+    cb(null, path);
+  },
+});
 @ApiTags('Users')
 @ApiBearerAuth()
 @Controller('blogs')
@@ -49,6 +64,19 @@ export class BlogsController {
     //   );
     console.log({ createBlogsDto });
     return this.blogsService.create(createBlogsDto);
+  }
+
+  @Post('photo/:id')
+  @UseInterceptors(FileInterceptor('photo', { storage }))
+  @UseGuards(JWTAuthGuard)
+  async uploadCover(@Param('id') id: string, @UploadedFile() file) {
+    if (!file)
+      throw new HttpException(
+        'Avatar Must be Provided.',
+        HttpStatus.BAD_REQUEST,
+      );
+    const photo = file.path;
+    return await this.update(id, { photo });
   }
 
   @Get('/count')
