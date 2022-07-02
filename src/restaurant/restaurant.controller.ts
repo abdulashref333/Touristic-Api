@@ -91,6 +91,11 @@ export class RestaurantController {
     return { data: await this.restaurantService.count(), msg: 'msg' };
   }
 
+  @Get(':id')
+  async findOne(@Param() id: string): Promise<any> {
+    return await this.restaurantService.getRestaurantById(id);
+  }
+
   @Get()
   async findAll(@Query() query): Promise<any> {
     return await this.restaurantService.getAllRestaurants(query);
