@@ -41,13 +41,13 @@ export class BlogsService {
 
   async getAllBlogs(filter) {
     filter = this.utileService.parseQuery(filter);
-    console.log({ filter });
+    // console.log({ filter });
     filter.filter = {
       ...filter.filter,
       approved: { eq: true },
       rejected: { eq: false },
     };
-    console.log(filter);
+    // console.log(filter);
     return Object.keys(filter).length !== 0
       ? await this.blogsService.query(filter)
       : await this.blogsModel
