@@ -3,7 +3,9 @@ import {
   ArrayMaxSize,
   IsArray,
   IsDefined,
+  IsLatLong,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -33,10 +35,19 @@ export class CreateHistoricalPlaceDto {
   reviews: [{ user: string; review: string; rating: number }];
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   @ArrayMaxSize(2)
   location: [string];
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsDefined()
+  address: {
+    country: string;
+    city: number;
+    street: number;
+  };
 
   @ApiProperty()
   @IsNotEmpty()

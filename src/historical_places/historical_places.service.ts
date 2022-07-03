@@ -27,6 +27,7 @@ export class HistoricalPlacesService {
       photos: createHistoricalPlaceDto.photos,
       location: createHistoricalPlaceDto.location,
       availableDays: createHistoricalPlaceDto.availableDays,
+      address: createHistoricalPlaceDto.address,
     };
 
     const newHistoricalPlace = await this.historicalPlacesModel.create(
@@ -37,7 +38,7 @@ export class HistoricalPlacesService {
 
   async count() {
     const count = await this.historicalPlacesModel.count();
-    return await count;
+    return count;
   }
 
   async getAllPlaces(filter) {

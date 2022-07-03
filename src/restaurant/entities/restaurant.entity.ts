@@ -15,6 +15,9 @@ export class RestaurantEntity extends Document {
   @Prop()
   location: [string];
 
+  @Prop()
+  address: object;
+
   @Prop({ default: [] })
   photos: [string];
 

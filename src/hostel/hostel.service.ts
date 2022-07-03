@@ -25,6 +25,7 @@ export class HostelService {
       name: createHostelDto.name,
       description: createHostelDto.description,
       location: createHostelDto.location,
+      address: createHostelDto.address,
       nightPrice: createHostelDto.nightPrice,
       photos: createHostelDto.photos || [],
     };

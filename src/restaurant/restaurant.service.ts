@@ -33,6 +33,7 @@ export class RestaurantService {
       name: String(createRestaurantDto.name).toLowerCase().trimEnd(),
       desc: createRestaurantDto.description,
       location: createRestaurantDto.location,
+      address: createRestaurantDto.address,
       photos: createRestaurantDto.photos,
       menu: createRestaurantDto.menu,
       openTime: createRestaurantDto.openTime,
