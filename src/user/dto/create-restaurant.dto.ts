@@ -33,8 +33,8 @@ export class CreateRestaurantDto {
   @IsDefined()
   address: {
     country: string;
-    city: number;
-    street: number;
+    city: string;
+    street: string;
   };
 
   @ApiProperty()

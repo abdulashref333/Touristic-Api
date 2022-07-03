@@ -41,8 +41,8 @@ export class CreateHostelDto {
   @IsDefined()
   address: {
     country: string;
-    city: number;
-    street: number;
+    city: string;
+    street: string;
   };
 
   @ApiProperty()
