@@ -3,10 +3,8 @@ import {
   ArrayMaxSize,
   IsArray,
   IsDefined,
-  IsLatLong,
   IsNotEmpty,
   IsNumber,
-  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -31,19 +29,11 @@ export class CreateHostelDto {
   description: string;
 
   @ApiProperty()
-  @IsOptional()
+  @IsDefined()
+  @IsNotEmpty()
   @IsArray()
   @ArrayMaxSize(2)
   location: [string];
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsDefined()
-  address: {
-    country: string;
-    city: string;
-    street: string;
-  };
 
   @ApiProperty()
   @IsDefined()

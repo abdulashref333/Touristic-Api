@@ -30,9 +30,6 @@ export class HistoricalPlacesEntity extends Document {
   location: [string];
 
   @Prop()
-  address: object;
-
-  @Prop()
   availableDays: [
     {
       day: string;

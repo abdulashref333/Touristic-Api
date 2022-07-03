@@ -20,9 +20,6 @@ export class HostelEntity extends Document {
   location: [string];
 
   @Prop()
-  address: object;
-
-  @Prop()
   photos: [string];
 
   @Prop()
