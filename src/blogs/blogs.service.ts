@@ -17,12 +17,12 @@ export class BlogsService {
     private utileService: UtilsService,
   ) {}
 
-  async create(createBlogsDto: CreateBlogsDto) {
+  async create(createBlogsDto) {
     const blog = {
       userId: createBlogsDto.userId,
       title: createBlogsDto.title,
       subtitle: createBlogsDto.subtitle,
-      photo: createBlogsDto.photo,
+      photos: createBlogsDto.photos,
       body: createBlogsDto.body,
       tags: createBlogsDto.tags,
       date: createBlogsDto.date,

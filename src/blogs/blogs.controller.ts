@@ -9,7 +9,9 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -28,7 +30,7 @@ import IBlogs from './blogs.interface';
 import { BlogsService } from './blogs.service';
 import { CreateBlogsDto } from './dto/create-blog.dto';
 import { UpdateBlogsDto } from './dto/update-blog.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import * as multer from 'multer';
 import * as fs from 'fs';
@@ -56,27 +58,31 @@ export class BlogsController {
   @ApiBody({ type: CreateBlogsDto })
   @ApiOperation({ summary: 'Create Blog' })
   @ApiResponse({ status: 401, description: 'BadRequest.' })
-  async create(@Body() createBlogsDto: CreateBlogsDto): Promise<IBlogs> {
-    // if (!(await this.userService.isUserExist(createBlogsDto.userId)))
-    //   throw new HttpException(
-    //     'This user is not exist, please provide another userId.',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    console.log({ createBlogsDto });
-    return this.blogsService.create(createBlogsDto);
+  @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
+  async create(
+    @Body() createBlogsDto: CreateBlogsDto,
+    @UploadedFiles() files,
+    @Req() req: Request,
+  ): Promise<IBlogs> {
+    const photos = files ? files.map((photo) => photo.path) : req.body.photos;
+    return this.blogsService.create({ ...createBlogsDto, photos });
   }
 
   @Post('photo/:id')
-  @UseInterceptors(FileInterceptor('photo', { storage }))
+  @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
   @UseGuards(JWTAuthGuard)
-  async uploadCover(@Param('id') id: string, @UploadedFile() file) {
-    if (!file)
+  async uploadCover(
+    @Param('id') id: string,
+    @UploadedFiles() files,
+    @Req() req: Request,
+  ) {
+    if (!files)
       throw new HttpException(
         'Avatar Must be Provided.',
         HttpStatus.BAD_REQUEST,
       );
-    const photo = file.path;
-    return await this.update(id, { photo });
+    const photos = files ? files.map((photo) => photo.path) : req.body.photos;
+    return await this.update(id, { photos });
   }
 
   @Get('/count')

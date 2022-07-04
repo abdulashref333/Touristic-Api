@@ -6,6 +6,8 @@ import {
   Param,
   Patch,
   Post,
+  Query,
+  Req,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -47,10 +49,11 @@ export class HistoricalPlacesController {
   async create(
     @Body() createHistoricalPlaceDto: CreateHistoricalPlaceDto,
     @UploadedFiles() files,
+    @Req() req: Request,
   ): Promise<IHistoricalPlaces> {
     console.log(createHistoricalPlaceDto);
 
-    const photos = files ? files.map((photo) => photo.path) : [];
+    const photos = files ? files.map((photo) => photo.path) : req.body.photos;
 
     return this.historicalPlacesService.create({
       ...createHistoricalPlaceDto,
@@ -63,12 +66,14 @@ export class HistoricalPlacesController {
     return await this.historicalPlacesService.count();
   }
 
-  // @Get()
-  // async findAll(): Promise<any> {
-  //   const historicalPlaces = await this.historicalPlacesService.getAllPlaces();
-  //   const count = await this.historicalPlacesService.count();
-  //   return { historicalPlaces, count };
-  // }
+  @Get()
+  async findAll(@Query() query): Promise<any> {
+    const historicalPlaces = await this.historicalPlacesService.getAllPlaces(
+      query,
+    );
+    const count = await this.historicalPlacesService.count();
+    return { historicalPlaces, count };
+  }
 
   @Patch(':id')
   @ApiBody({ type: UpdateHistoricalPlacesDto })

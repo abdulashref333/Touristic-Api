@@ -19,7 +19,7 @@ export class BlogsEntity extends Document {
   subtitle: string;
 
   @Prop()
-  photo: [string];
+  photos: [string];
 
   @Prop()
   body: string;

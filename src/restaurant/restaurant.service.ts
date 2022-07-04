@@ -29,8 +29,9 @@ export class RestaurantService {
         HttpStatus.BAD_REQUEST,
       );
 
+    console.log({ createRestaurantDto });
     const restaurant = {
-      name: createRestaurantDto.name || 'no-name',
+      name: createRestaurantDto.name,
       desc: createRestaurantDto.description,
       location: createRestaurantDto.location,
       address: createRestaurantDto.address,
@@ -42,6 +43,8 @@ export class RestaurantService {
       supportDelivery: createRestaurantDto.supportDelivery || false,
       restaurantPhoneNumber: createRestaurantDto.restaurantPhoneNumber || '',
     };
+    console.log({ restaurant });
+
     const newRestaurant = await this.restaurantModel.create(restaurant);
     return newRestaurant.save();
   }

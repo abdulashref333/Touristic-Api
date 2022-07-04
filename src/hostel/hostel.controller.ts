@@ -12,6 +12,7 @@ import {
   UseGuards,
   HttpException,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { HostelService } from './hostel.service';
@@ -43,8 +44,12 @@ export class HostelController {
   @ApiResponse({ status: 400, description: 'BadRequest.' })
   @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
   @UseGuards(RoleGuard(Role.Admin))
-  create(@Body() createHostelDto: CreateHostelDto, @UploadedFiles() files) {
-    const photos = files.map((photo) => photo.path);
+  create(
+    @Body() createHostelDto: CreateHostelDto,
+    @UploadedFiles() files,
+    @Req() req: Request,
+  ) {
+    const photos = files ? files.map((photo) => photo.path) : req.body.photos;
     // console.log({ files });
 
     return this.hostelService.create({

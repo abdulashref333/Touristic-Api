@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -20,7 +21,7 @@ import IRestaurant from './restaurant.interface';
 import { RestaurantService } from './restaurant.service';
 import { Request } from 'express';
 import * as multer from 'multer';
-import { Express } from 'express';
+// import { Request } from 'express';
 import * as fs from 'fs';
 import RoleGuard from 'src/auth/guards/role.guard';
 import { Role } from 'src/user/entities/user.entity';
@@ -42,7 +43,7 @@ export class RestaurantController {
   @ApiBody({ type: CreateRestaurantDto })
   @ApiOperation({ summary: 'Create Restaurant' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @UseGuards(RoleGuard(Role.User))
+  @UseGuards(RoleGuard(Role.Admin))
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -55,12 +56,17 @@ export class RestaurantController {
   async create(
     @Body() createRestaurantDto: CreateRestaurantDto,
     @UploadedFiles() files: { photos; menu },
+    @Req() req: Request,
   ) {
-    // console.log({ photos: files['photos[]'], menues: files['menu[]'] });
-    const photos = files ? files['photos[]'].map((photo) => photo.path) : [];
-    const menu = files ? files['menu []'].map((photo) => photo.path) : [];
+    console.log({ createRestaurantDto });
+    const photos = files
+      ? files['photos[]'].map((photo) => photo.path)
+      : req.body.photos;
+    const menu = files
+      ? files['menu []'].map((photo) => photo.path)
+      : req.body.menu;
     const data = await this.restaurantService.create({
-      createRestaurantDto,
+      ...createRestaurantDto,
       photos,
       menu,
     });
