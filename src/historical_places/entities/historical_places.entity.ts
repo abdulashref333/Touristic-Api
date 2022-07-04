@@ -29,6 +29,9 @@ export class HistoricalPlacesEntity extends Document {
   @Prop()
   location: [string];
 
+  @Prop({ type: Object })
+  address: {};
+
   @Prop()
   availableDays: [
     {

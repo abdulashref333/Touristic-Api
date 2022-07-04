@@ -23,11 +23,19 @@ export class CreateRestaurantDto {
   description: string;
 
   @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   @ArrayMaxSize(2)
   location: [string];
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsDefined()
+  address: {
+    country: string;
+    city: string;
+    street: string;
+  };
 
   @ApiProperty()
   @IsOptional()

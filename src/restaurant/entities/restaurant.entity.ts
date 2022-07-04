@@ -1,6 +1,7 @@
 import IRestaurant from 'src/restaurant/restaurant.interface';
 import { Model, Document } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { type } from 'os';
 
 export type IRestaurantModel = Model<IRestaurant>;
 
@@ -14,6 +15,9 @@ export class RestaurantEntity extends Document {
 
   @Prop()
   location: [string];
+
+  @Prop({ type: Object })
+  address: {};
 
   @Prop({ default: [] })
   photos: [string];

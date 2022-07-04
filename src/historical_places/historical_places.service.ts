@@ -43,7 +43,6 @@ export class HistoricalPlacesService {
 
   async getAllPlaces(filter) {
     filter = this.utileService.parseQuery(filter);
-
     return filter.length !== 0
       ? await this.historicalPlacesService.query(filter)
       : await this.historicalPlacesModel.find().limit(10).exec();

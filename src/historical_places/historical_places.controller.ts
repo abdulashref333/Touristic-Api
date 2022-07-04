@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -22,6 +21,7 @@ import * as fs from 'fs';
 import RoleGuard from 'src/auth/guards/role.guard';
 import { Role } from 'src/user/entities/user.entity';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { filter } from 'rxjs';
 
 const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
@@ -48,7 +48,8 @@ export class HistoricalPlacesController {
     @Body() createHistoricalPlaceDto: CreateHistoricalPlaceDto,
     @UploadedFiles() files,
   ): Promise<IHistoricalPlaces> {
-    // console.log(createHistoricalPlaceDto);
+    console.log(createHistoricalPlaceDto);
+
     const photos = files ? files.map((photo) => photo.path) : [];
 
     return this.historicalPlacesService.create({
@@ -57,28 +58,17 @@ export class HistoricalPlacesController {
     });
   }
 
-  @Post('photo/:id')
-  @UseGuards(RoleGuard(Role.Admin))
-  @UseInterceptors(FilesInterceptor('photos[]', 5, { storage }))
-  async uploadePhotos(@Param('id') id: string, @UploadedFiles() files) {
-    const photos = files ? files.map((photo) => photo.path) : [];
-
-    return await this.historicalPlacesService.update(id, { photos });
-  }
-
   @Get('/count')
   async count(): Promise<number> {
     return await this.historicalPlacesService.count();
   }
 
-  @Get()
-  async findAll(@Query() query): Promise<any> {
-    const historicalPlaces = await this.historicalPlacesService.getAllPlaces(
-      query,
-    );
-    const count = await this.historicalPlacesService.count();
-    return { historicalPlaces, count };
-  }
+  // @Get()
+  // async findAll(): Promise<any> {
+  //   const historicalPlaces = await this.historicalPlacesService.getAllPlaces();
+  //   const count = await this.historicalPlacesService.count();
+  //   return { historicalPlaces, count };
+  // }
 
   @Patch(':id')
   @ApiBody({ type: UpdateHistoricalPlacesDto })

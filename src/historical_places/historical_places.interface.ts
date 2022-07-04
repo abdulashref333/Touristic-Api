@@ -9,6 +9,7 @@ export default interface IHistoricalPlaces extends Document {
   reviews: [{ user: string; review: string; rating: number }];
   photos: [string];
   location: [string];
+  address: object;
   availableDays: [
     {
       day: string;
