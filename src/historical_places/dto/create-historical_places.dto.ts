@@ -4,6 +4,7 @@ import {
   IsArray,
   IsDefined,
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -36,6 +37,10 @@ export class CreateHistoricalPlaceDto {
   @IsArray()
   @ArrayMaxSize(2)
   location: [string];
+
+  @ApiProperty()
+  @IsOptional()
+  photos: [string];
 
   @ApiProperty()
   @IsNotEmpty()
