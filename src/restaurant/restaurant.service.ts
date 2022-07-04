@@ -30,7 +30,7 @@ export class RestaurantService {
       );
 
     const restaurant = {
-      name: String(createRestaurantDto.name).toLowerCase().trimEnd(),
+      name: createRestaurantDto.name || 'no-name',
       desc: createRestaurantDto.description,
       location: createRestaurantDto.location,
       address: createRestaurantDto.address,
