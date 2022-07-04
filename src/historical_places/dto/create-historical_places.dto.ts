@@ -41,6 +41,10 @@ export class CreateHistoricalPlaceDto {
   location: [string];
 
   @ApiProperty()
+  @IsOptional()
+  photos: [string];
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsDefined()
   address: {
