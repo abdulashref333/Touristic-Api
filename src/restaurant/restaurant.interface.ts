@@ -4,6 +4,7 @@ export default interface IRestaurant extends Document {
   name: string;
   description: string;
   location: string;
+  address: object;
   photos: string;
   reviewsRated: Number;
   menu: string;

@@ -19,6 +19,9 @@ export class HostelEntity extends Document {
   @Prop()
   location: [string];
 
+  @Prop({ type: Object })
+  address: {};
+
   @Prop()
   photos: [string];
 
