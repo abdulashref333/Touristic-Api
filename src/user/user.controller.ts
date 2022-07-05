@@ -33,6 +33,7 @@ import { Role } from './entities/user.entity';
 import * as multer from 'multer';
 import * as fs from 'fs';
 import { FileInterceptor } from '@nestjs/platform-express';
+import SameUser from 'src/auth/guards/sameuser.guard';
 
 const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
@@ -103,13 +104,27 @@ export class UserController {
   @Patch(':id')
   @ApiBody({ type: UpdateUserDto })
   @ApiOperation({ summary: 'Update User' })
-  @UseGuards(JWTAuthGuard)
+  // @UseGuards(JWTAuthGuard)
+  @UseGuards(SameUser())
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<IUser> {
-    // console.log({ updateUserDto });
-    return await this.userService.update(id, updateUserDto);
+    console.log({ updateUserDto });
+    updateUserDto.role = Role.User;
+    return await this.userService.updateForUser(id, updateUserDto);
+  }
+
+  @Patch('admin/:id')
+  @ApiBody({ type: UpdateUserDto })
+  @ApiOperation({ summary: 'Update User' })
+  @UseGuards(RoleGuard(Role.Admin))
+  async updateForAdmin(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<IUser> {
+    console.log({ updateUserDto });
+    return await this.userService.updateForAdmin(id, updateUserDto);
   }
 
   @Delete(':id')

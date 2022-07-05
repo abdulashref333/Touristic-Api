@@ -58,7 +58,27 @@ export class UserService {
     return await this.userModel.count();
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async updateForUser(id: string, updateUserDto: UpdateUserDto) {
+    let userExist = await this.userModel.findById(id).exec();
+    if (!userExist)
+      throw new HttpException(
+        'This email is exist, please provide another email.',
+        HttpStatus.BAD_REQUEST,
+      );
+    // this update function is gonna be a common update
+    // console.log({ updateUserDto });
+
+    userExist = this.utileService.getUpdatedDoc(userExist, updateUserDto);
+    // console.log({ userExist });
+    const updatedUser = this.userModel
+      .findByIdAndUpdate(id, userExist, {
+        new: true,
+      })
+      .exec();
+    return updatedUser;
+  }
+
+  async updateForAdmin(id: string, updateUserDto: UpdateUserDto) {
     let userExist = await this.userModel.findById(id).exec();
     if (!userExist)
       throw new HttpException(

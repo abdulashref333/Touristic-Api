@@ -67,4 +67,9 @@ export class CreateUserDto {
   @IsString()
   @IsEnum(Role)
   role: Role;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNotEmpty()
+  name: string;
 }
