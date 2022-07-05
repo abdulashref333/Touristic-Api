@@ -50,7 +50,7 @@ export class HostelController {
     @Req() req: Request,
   ) {
     const photos = files ? files.map((photo) => photo.path) : req.body.photos;
-    // console.log({ files });
+    console.log({ createHostelDto });
 
     return this.hostelService.create({
       ...createHostelDto,

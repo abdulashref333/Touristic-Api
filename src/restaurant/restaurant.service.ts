@@ -8,6 +8,7 @@ import { QueryService, InjectQueryService } from '@nestjs-query/core';
 import { UpdateRestaurantDto } from 'src/user/dto/update.restaurant.dto';
 import { UtilsService } from 'src/common/utils/utils.service';
 import { SortDirection } from '@nestjs-query/core';
+import { ObjectId } from 'mongodb';
 @Injectable()
 export class RestaurantService {
   constructor(
@@ -32,7 +33,7 @@ export class RestaurantService {
     console.log({ createRestaurantDto });
     const restaurant = {
       name: createRestaurantDto.name,
-      desc: createRestaurantDto.description,
+      description: createRestaurantDto.description,
       location: createRestaurantDto.location,
       address: createRestaurantDto.address,
       photos: createRestaurantDto.photos,
@@ -94,7 +95,7 @@ export class RestaurantService {
   }
 
   async remove(id: string) {
-    const result = await this.restaurantModel.findByIdAndRemove(id).exec();
+    const result = await this.restaurantModel.findByIdAndRemove(id);
     return result;
   }
 }

@@ -20,7 +20,7 @@ export class HostelEntity extends Document {
   location: [string];
 
   @Prop({ type: Object })
-  address: {};
+  address: any;
 
   @Prop()
   photos: [string];

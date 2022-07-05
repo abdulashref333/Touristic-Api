@@ -16,12 +16,15 @@ export class HostelService {
     private utilsService: UtilsService,
   ) {}
   async create(createHostelDto) {
-    const userExist = this.userService.findUserByEmail(createHostelDto.email);
+    console.log({ createHostelDto });
+    const userExist = await this.userService.findUserByEmail(
+      createHostelDto.email,
+    );
     if (!userExist)
       throw new HttpException('No user exists.', HttpStatus.BAD_REQUEST);
 
     const hostel = {
-      userId: (await userExist)._id,
+      userId: userExist._id,
       name: createHostelDto.name,
       description: createHostelDto.description,
       location: createHostelDto.location,
@@ -36,6 +39,7 @@ export class HostelService {
 
   async findAll(filter) {
     filter = this.utilsService.parseQuery(filter);
+    console.log({ filter });
     return Object.keys(filter).length !== 0
       ? await this.hostelService.query(filter)
       : await this.hostelModel

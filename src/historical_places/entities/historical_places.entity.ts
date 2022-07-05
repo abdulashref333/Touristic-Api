@@ -10,7 +10,6 @@ export class HistoricalPlacesEntity extends Document {
   @Prop({ required: true, unique: true })
   name: string;
 
-  @ApiProperty()
   @Prop()
   story: string;
 
@@ -30,7 +29,7 @@ export class HistoricalPlacesEntity extends Document {
   location: [string];
 
   @Prop({ type: Object })
-  address: {};
+  address: any;
 
   @Prop()
   availableDays: [
