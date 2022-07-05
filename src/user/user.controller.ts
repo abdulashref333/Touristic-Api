@@ -55,8 +55,9 @@ export class UserController {
   async create(
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() file,
+    @Req() req: Request,
   ): Promise<IUser> {
-    const avatar = file.path;
+    const avatar = file ? file.path : req.body.avatar;
     return this.userService.create({ ...createUserDto, avatar });
   }
 

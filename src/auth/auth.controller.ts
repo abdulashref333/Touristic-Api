@@ -4,6 +4,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,10 +21,16 @@ import * as fs from 'fs';
 
 const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
-    const name = file.originalname.split('.')[0] + '_' + Date.now().toString();
-    const path = `./images/avatars/${name}`;
-    if (!fs.existsSync(path)) fs.mkdirSync(path);
-    cb(null, path);
+    if (file) {
+      const name =
+        file.originalname.split('.')[0] + '_' + Date.now().toString();
+      console.log(file);
+
+      const path = `./images/avatars/${name}`;
+      if (!fs.existsSync(path)) fs.mkdirSync(path);
+      cb(null, path);
+    }
+    cb(null, '');
   },
 });
 @Controller('auth')
@@ -39,9 +46,10 @@ export class AuthController {
   async signup(
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() file,
+    @Req() req: Request,
   ): Promise<IUser> {
-    // console.log(file);
-    const avatar = file.path;
+    console.log(file);
+    const avatar = file ? file.path : req.body.avatar;
     // return;
     return await this.authService.signUp({ ...createUserDto, avatar });
   }
